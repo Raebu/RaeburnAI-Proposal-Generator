@@ -1,50 +1,66 @@
 # RaeburnAI Proposal Generator
 
-Open-source AI proposal and solution generator for consultants, agencies and implementation partners.
+![Status](https://img.shields.io/badge/status-production--baseline-blue) ![TypeScript](https://img.shields.io/badge/typescript-strict-blue) ![License](https://img.shields.io/badge/license-Apache--2.0-green)
 
-Upload or paste client website notes, LinkedIn/company context and annual report content. RaeburnAI Proposal Generator produces:
+AI proposal and solution generator for consultants.
 
-- Executive-ready proposals
-- Technical solution designs
-- Implementation roadmaps
-- Pricing models
-- Delivery timelines
-- ROI estimates
-- Risk registers
-- Executive presentation outlines
+## Short product description
 
-## Why this exists
+RaeburnAI Proposal Generator helps consultants convert client website notes, LinkedIn context, annual report excerpts and discovery pain points into structured proposals, implementation roadmaps, pricing options, delivery timelines, ROI estimates and executive presentation outlines.
 
-Consultants waste hours turning discovery notes into proposal decks, pricing tables and implementation plans. This project turns messy client context into structured, reviewable, commercially useful proposal assets while keeping the human consultant in control.
+The product is designed for consultant-led review. AI output is draft advisory content, not an automatic commitment, quote or legal document.
 
-## Core capabilities
+## Part of the RaeburnAI Platform
 
+RaeburnAI is an enterprise AI platform for practical business transformation. Each module is designed to solve a specific operating problem while sharing a consistent architecture, security model, documentation standard and delivery philosophy.
+
+### Ecosystem map
+
+- [RaeburnAI Compliance Engine](https://github.com/Raebu/RaeburnAI-Compliance-Engine) - AI governance, GDPR, ISO 42001, ISO 27001 and EU AI Act readiness.
+- [Universal AI Knowledge Graph](https://github.com/Raebu/Universal-AI-Knowledge-Graph) - shared organisational knowledge and relationship intelligence.
+- [RaeburnAI Business Twin](https://github.com/Raebu/RaeburnAI-Business-Twin) - digital operating model and business simulation layer.
+- [RaeburnAI Executive Briefing](https://github.com/Raebu/RaeburnAI-Executive-Briefing) - leadership briefings, board packs and decision intelligence.
+- [RaeburnAI Proposal Generator](https://github.com/Raebu/RaeburnAI-Proposal-Generator) - consultant proposal, roadmap, pricing and ROI generation.
+- [RaeburnAI-Chain](https://github.com/Raebu/RaeburnAI-Chain) - orchestration layer connecting core RaeburnAI modules.
+
+## Core features
+
+- Client context capture for website, LinkedIn and annual report notes
 - AI proposal generation API
-- Client context ingestion
-- Website, LinkedIn and annual report input fields
-- Technical proposal generation
-- ROI and pricing calculator
-- Roadmap and milestone generation
-- Risk, assumptions and dependencies
-- Proposal history-ready architecture
-- Clean executive dashboard UI
-- Docker-ready deployment
-- CI-ready test structure
-- Strict TypeScript and Zod validation
+- Executive summary and technical solution generation
+- Implementation roadmap generation
+- Pricing option generation
+- ROI estimate generation
+- Timeline and risk register output
+- Executive presentation outline generation
+- Health check endpoint
+- Zod input validation
+- Basic rate limiting
+- Structured audit logging
+- Docker and Docker Compose deployment path
+- CI, CodeQL and Dependabot configuration
 
-## Tech stack
+## Architecture
 
-- Next.js App Router
-- TypeScript
-- Tailwind CSS
-- Zod validation
-- OpenAI-compatible generation layer
-- Vitest test setup
-- Docker
+```text
+src/app                    Next.js App Router pages and API routes
+src/app/api/health          Operational health endpoint
+src/app/api/proposals       Proposal generation endpoint
+src/lib/ai                  Prompt and provider integration
+src/lib/proposals           Domain schemas, pricing and ROI calculators
+src/lib/security            Rate limiting, audit logging and safe errors
+src/lib/types               Shared TypeScript proposal contracts
+examples                    Demo input data
+docs                        Production and screenshot documentation
+```
+
+The current implementation uses a server-side OpenAI-compatible generation layer with a deterministic fallback when no provider key is configured. Proposal storage, user accounts and workspace RBAC are intentionally marked as roadmap items rather than faked.
 
 ## Quick start
 
 ```bash
+git clone https://github.com/Raebu/RaeburnAI-Proposal-Generator.git
+cd RaeburnAI-Proposal-Generator
 cp .env.example .env.local
 npm install
 npm run dev
@@ -52,19 +68,57 @@ npm run dev
 
 Open `http://localhost:3000`.
 
-## Environment
+## Environment variables
+
+| Variable | Required | Description |
+| --- | --- | --- |
+| `APP_BASE_URL` | Yes | Public base URL for the app. |
+| `OPENAI_API_KEY` | No | Server-side provider key. Without this, fallback generation is used. |
+| `OPENAI_MODEL` | No | Model name. Defaults to `gpt-4.1-mini`. |
+| `MAX_INPUT_CHARS` | No | Maximum planned input size. |
+| `RATE_LIMIT_REQUESTS_PER_MINUTE` | No | Planned externalised rate limit value. |
+| `LOG_LEVEL` | No | Runtime logging level. |
+| `HUMAN_APPROVAL_REQUIRED` | No | Documents the expected human-review workflow. |
+
+## Usage examples
+
+Use the demo payload in [`examples/demo-client.json`](examples/demo-client.json), or submit equivalent context through the web UI.
+
+API example:
 
 ```bash
-OPENAI_API_KEY=sk-...
-OPENAI_MODEL=gpt-4.1-mini
-APP_BASE_URL=http://localhost:3000
+curl -X POST http://localhost:3000/api/proposals \
+  -H "Content-Type: application/json" \
+  -d @examples/demo-client.json
 ```
 
-The app includes a deterministic fallback proposal generator when no API key is configured, so contributors can run it locally before adding provider credentials.
-
-## Production deployment
+Health check:
 
 ```bash
+curl http://localhost:3000/api/health
+```
+
+## Security model
+
+- API keys stay server-side only
+- User input is validated with Zod
+- Proposal generation is rate-limited per caller key
+- Sensitive actions are audit logged
+- Errors are returned through a safe error helper
+- Security headers are configured in Next.js
+- CodeQL scans run through GitHub Actions
+- Dependabot is configured for dependency maintenance
+- Generated proposals require human review before being sent to clients
+- No client data or secrets should be committed to the repository
+
+Known limitation: rate limiting is currently in-memory and should be replaced with Redis or edge rate limiting for multi-instance production deployments.
+
+## Production readiness
+
+Production baseline is in place for an open-source module:
+
+```bash
+npm install
 npm run lint
 npm run typecheck
 npm run test
@@ -72,32 +126,33 @@ npm run build
 docker build -t raeburnai-proposal-generator .
 ```
 
-## Project structure
+Docker Compose:
 
-```text
-src/app                 Next.js routes and UI
-src/lib/ai              AI provider and prompt pipeline
-src/lib/proposals       Proposal domain logic
-src/lib/types           Shared types
+```bash
+docker compose up --build
 ```
 
-## Open-source licence
-
-Apache-2.0. See [LICENSE](LICENSE).
+See [`docs/production.md`](docs/production.md) for deployment notes.
 
 ## Roadmap
 
-- PDF/DOCX export
+- PDF and DOCX proposal export
 - PPTX executive deck export
+- Persistent proposal history
+- Workspace authentication and RBAC
+- Redis-backed rate limiting
+- Full document upload and retrieval pipeline
 - CRM integrations
-- Proposal version history
-- Team approval workflow
-- RAG over uploaded documents
-- Stripe pricing model templates
+- Proposal approval workflows
 - Multi-model provider support
-- Supabase/Postgres persistence
-- Workspace permissions
+- Organisation analytics
+
+See [`ROADMAP.md`](ROADMAP.md).
 
 ## Contributing
 
-Pull requests are welcome. Please run tests and keep the project production-minded: typed, documented, secure and usable.
+Contributions are welcome. Please read [`CONTRIBUTING.md`](CONTRIBUTING.md), keep changes typed and tested, and maintain the shared RaeburnAI platform style.
+
+## Licence
+
+Apache-2.0. See [`LICENSE`](LICENSE).
