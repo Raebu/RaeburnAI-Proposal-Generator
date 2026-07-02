@@ -2,6 +2,8 @@
 
 ![Status](https://img.shields.io/badge/status-production--baseline-blue) ![TypeScript](https://img.shields.io/badge/typescript-strict-blue) ![License](https://img.shields.io/badge/license-Apache--2.0-green)
 
+## One-line positioning statement
+
 AI proposal and solution generator for consultants.
 
 ## Short product description
