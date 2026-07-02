@@ -19,7 +19,7 @@ Consultants waste hours turning discovery notes into proposal decks, pricing tab
 
 ## Core capabilities
 
-- Multi-step AI proposal pipeline
+- AI proposal generation API
 - Client context ingestion
 - Website, LinkedIn and annual report input fields
 - Technical proposal generation
@@ -27,11 +27,10 @@ Consultants waste hours turning discovery notes into proposal decks, pricing tab
 - Roadmap and milestone generation
 - Risk, assumptions and dependencies
 - Proposal history-ready architecture
-- API-first backend
 - Clean executive dashboard UI
 - Docker-ready deployment
 - CI-ready test structure
-- Security-first environment validation
+- Strict TypeScript and Zod validation
 
 ## Tech stack
 
@@ -39,8 +38,7 @@ Consultants waste hours turning discovery notes into proposal decks, pricing tab
 - TypeScript
 - Tailwind CSS
 - Zod validation
-- Server Actions/API routes
-- OpenAI-compatible provider abstraction
+- OpenAI-compatible generation layer
 - Vitest test setup
 - Docker
 
@@ -62,6 +60,8 @@ OPENAI_MODEL=gpt-4.1-mini
 APP_BASE_URL=http://localhost:3000
 ```
 
+The app includes a deterministic fallback proposal generator when no API key is configured, so contributors can run it locally before adding provider credentials.
+
 ## Production deployment
 
 ```bash
@@ -75,17 +75,15 @@ docker build -t raeburnai-proposal-generator .
 ## Project structure
 
 ```text
-src/app                 Next.js routes
-src/components          UI components
+src/app                 Next.js routes and UI
 src/lib/ai              AI provider and prompt pipeline
 src/lib/proposals       Proposal domain logic
-src/lib/security        Validation and safety helpers
 src/lib/types           Shared types
 ```
 
 ## Open-source licence
 
-MIT. See [LICENSE](LICENSE).
+Apache-2.0. See [LICENSE](LICENSE).
 
 ## Roadmap
 
