@@ -23,13 +23,21 @@ export function buildPricingOptions(basePrice = 12000): PricingOption[] {
   ];
 }
 
-export function estimateRoi(params?: { people?: number; hoursSavedPerPersonPerWeek?: number; hourlyCost?: number; investment?: number }): RoiEstimate {
+type RoiParams = {
+  people?: number;
+  hoursSavedPerPersonPerWeek?: number;
+  hourlyCost?: number;
+  investment?: number;
+};
+
+export function estimateRoi(params?: RoiParams): RoiEstimate {
   const people = params?.people ?? 20;
   const hours = params?.hoursSavedPerPersonPerWeek ?? 3;
   const hourlyCost = params?.hourlyCost ?? 45;
   const investment = params?.investment ?? 12000;
   const monthlySavingsLow = Math.round(people * hours * hourlyCost * 4 * 0.6);
   const monthlySavingsHigh = Math.round(people * hours * hourlyCost * 4 * 1.2);
+  const conservativePayback = Number((investment / monthlySavingsLow).toFixed(1));
 
   return {
     assumptions: [
@@ -41,7 +49,7 @@ export function estimateRoi(params?: { people?: number; hoursSavedPerPersonPerWe
     monthlySavingsLow,
     monthlySavingsHigh,
     paybackMonthsLow: Number((investment / monthlySavingsHigh).toFixed(1)),
-    paybackMonthsHigh: Number((investment / monthlySavingsLow).toFixed(1)),
-    narrative: `Estimated monthly value ranges from £${monthlySavingsLow.toLocaleString()} to £${monthlySavingsHigh.toLocaleString()}, with payback typically inside ${Number((investment / monthlySavingsLow).toFixed(1))} months under the conservative scenario.`
+    paybackMonthsHigh: conservativePayback,
+    narrative: `Estimated monthly value ranges from £${monthlySavingsLow.toLocaleString()} to £${monthlySavingsHigh.toLocaleString()}, with payback typically inside ${conservativePayback} months under the conservative scenario.`
   };
 }
