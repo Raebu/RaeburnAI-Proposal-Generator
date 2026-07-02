@@ -8,7 +8,7 @@ describe('proposal calculators', () => {
   });
 
   it('estimates commercial value', () => {
-    const roi = estimateRoi({ people: 10, hoursSavedPerPersonPerWeek: 2, hourlyCost: 50, investment: 10000 });
+    const roi = estimateRoi({ people: 10, hoursSavedPerPersonPerWeek: 2 });
     expect(roi.monthlySavingsLow > 0).toBe(true);
     expect(roi.paybackMonthsHigh > 0).toBe(true);
   });
