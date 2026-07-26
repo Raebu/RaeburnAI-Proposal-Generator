@@ -1,25 +1,37 @@
 # Roadmap
 
-## Now
+## Implemented production foundation
 
-- Stable proposal generation flow
-- Standard RaeburnAI documentation
-- CI, CodeQL and dependency maintenance
-- Docker deployment path
+- Strict client-input and generated-output validation.
+- Deterministic and bounded OpenAI-compatible generation modes.
+- PostgreSQL proposal, approval and audit persistence.
+- Workspace API authentication and one-time human approval/rejection.
+- Redis-backed distributed rate limits.
+- Versioned migrations and migration-first Docker Compose.
+- Unit, coverage and authenticated approval E2E tests.
+- CI, CodeQL, dependency review, audit, secret and image scanning gates.
 
-## Next
+## P0 — before enterprise customer deployment
 
-- PDF and DOCX proposal export
-- PPTX executive deck export
-- Persistent proposal history
-- Workspace authentication and RBAC
-- Redis-backed rate limiting
-- Full document upload and retrieval pipeline
+- Generate, review and commit the npm lockfile; enforce `npm ci` everywhere.
+- Add organisation/user tenancy, RBAC, MFA and OIDC/SAML SSO.
+- Add proposal amendments, version history and immutable approved snapshots.
+- Encrypt sensitive client material and implement retention, deletion, export and legal hold.
+- Add automated PostgreSQL backups and demonstrate restoration/rollback.
+- Add provider evaluation fixtures, timeout/outage/load tests and spend limits.
+- Complete privacy, DPA, subprocessor, accessibility and independent security review.
+
+## P1 — commercial workflow
+
+- PDF and DOCX proposal exports with snapshot and injection testing.
+- PPTX executive deck export.
+- CRM integrations through scoped versioned APIs.
+- Document upload, malware scanning, extraction and source citations.
+- Team workspaces, comments, approval delegation and notifications.
+- Organisation templates and analytics.
 
 ## Later
 
-- CRM integrations
-- Proposal approval workflows
-- Multi-model provider support
-- Organisation analytics
-- Template marketplace
+- Multi-model provider routing and quality/cost evaluation.
+- Template marketplace with provenance and approval governance.
+- Integration with Meeting Intelligence, Executive Briefing and RaeburnAI Chain.
