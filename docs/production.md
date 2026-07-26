@@ -30,8 +30,8 @@ Production configuration fails closed when any core boundary is unsafe or incomp
 
 ## Release sequence
 
-1. Commit and review `package-lock.json`; run clean `npm ci`.
-2. Require green formatting, lint, typing, coverage, build, E2E, audit, CodeQL, dependency and image gates.
+1. Commit and review `package-lock.json`; the branch-restricted verification workflow may generate the first lockfile with package scripts disabled.
+2. Run clean `npm ci` and require green formatting, lint, typing, coverage, build, E2E, audit, CodeQL, dependency and image gates.
 3. Build an immutable application image and retain vulnerability/SBOM evidence.
 4. Back up PostgreSQL and verify that the backup is readable.
 5. Run `npm run db:migrate` as a separately approved one-shot job.
