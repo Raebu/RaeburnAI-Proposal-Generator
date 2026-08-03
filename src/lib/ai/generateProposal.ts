@@ -7,12 +7,29 @@ export function fallbackProposal(input: ProposalInput): ProposalOutput {
   const pricing = buildPricingOptions();
   return {
     executiveSummary: `${input.clientName} has an opportunity to turn discovery context into a prioritised implementation programme with measurable commercial value.`,
-    proposal: 'Assess the client context, identify the highest-value opportunities, design the target solution, and deliver a practical implementation plan with governance and reporting.',
-    technicalSolution: 'A secure AI-assisted consulting workflow for context ingestion, structured analysis, roadmap generation, ROI modelling, human review and proposal export.',
+    proposal:
+      'Assess the client context, identify the highest-value opportunities, design the target solution, and deliver a practical implementation plan with governance and reporting.',
+    technicalSolution:
+      'A secure AI-assisted consulting workflow for context ingestion, structured analysis, roadmap generation, ROI modelling, human review and proposal export.',
     roadmap: [
-      { phase: 'Discover', objective: 'Clarify goals and current operating model.', deliverables: ['Stakeholder discovery', 'Current-state summary', 'Opportunity backlog'], successMetrics: ['Clear scope', 'Confirmed priorities'] },
-      { phase: 'Design', objective: 'Create the solution architecture and delivery plan.', deliverables: ['Target-state design', 'Implementation roadmap', 'Commercial model'], successMetrics: ['Signed-off approach', 'Measurable ROI model'] },
-      { phase: 'Deliver', objective: 'Implement priority workstreams and prove value.', deliverables: ['Configured workflows', 'Pilot launch', 'Training'], successMetrics: ['Adoption', 'Hours saved', 'Quality improvement'] }
+      {
+        phase: 'Discover',
+        objective: 'Clarify goals and current operating model.',
+        deliverables: ['Stakeholder discovery', 'Current-state summary', 'Opportunity backlog'],
+        successMetrics: ['Clear scope', 'Confirmed priorities']
+      },
+      {
+        phase: 'Design',
+        objective: 'Create the solution architecture and delivery plan.',
+        deliverables: ['Target-state design', 'Implementation roadmap', 'Commercial model'],
+        successMetrics: ['Signed-off approach', 'Measurable ROI model']
+      },
+      {
+        phase: 'Deliver',
+        objective: 'Implement priority workstreams and prove value.',
+        deliverables: ['Configured workflows', 'Pilot launch', 'Training'],
+        successMetrics: ['Adoption', 'Hours saved', 'Quality improvement']
+      }
     ],
     pricing,
     timeline: [
@@ -22,10 +39,26 @@ export function fallbackProposal(input: ProposalInput): ProposalOutput {
     ],
     roiEstimate: estimateRoi({ investment: pricing[1].price }),
     risks: [
-      { risk: 'Insufficient stakeholder availability', likelihood: 'Medium', impact: 'Medium', mitigation: 'Agree named sponsors and decision cadence before kickoff.' },
-      { risk: 'Poor source data quality', likelihood: 'Medium', impact: 'High', mitigation: 'Validate assumptions and prioritise high-confidence use cases first.' }
+      {
+        risk: 'Insufficient stakeholder availability',
+        likelihood: 'Medium',
+        impact: 'Medium',
+        mitigation: 'Agree named sponsors and decision cadence before kickoff.'
+      },
+      {
+        risk: 'Poor source data quality',
+        likelihood: 'Medium',
+        impact: 'High',
+        mitigation: 'Validate assumptions and prioritise high-confidence use cases first.'
+      }
     ],
-    executivePresentation: ['Executive summary', 'Current-state challenges', 'Recommended solution', 'Roadmap', 'ROI and payback']
+    executivePresentation: [
+      'Executive summary',
+      'Current-state challenges',
+      'Recommended solution',
+      'Roadmap',
+      'ROI and payback'
+    ]
   };
 }
 

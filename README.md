@@ -72,15 +72,15 @@ Open `http://localhost:3000`.
 
 ## Environment variables
 
-| Variable | Required | Description |
-| --- | --- | --- |
-| `APP_BASE_URL` | Yes | Public base URL for the app. |
-| `OPENAI_API_KEY` | No | Server-side provider key. Without this, fallback generation is used. |
-| `OPENAI_MODEL` | No | Model name. Defaults to `gpt-4.1-mini`. |
-| `MAX_INPUT_CHARS` | No | Maximum planned input size. |
-| `RATE_LIMIT_REQUESTS_PER_MINUTE` | No | Planned externalised rate limit value. |
-| `LOG_LEVEL` | No | Runtime logging level. |
-| `HUMAN_APPROVAL_REQUIRED` | No | Documents the expected human-review workflow. |
+| Variable                         | Required | Description                                                          |
+| -------------------------------- | -------- | -------------------------------------------------------------------- |
+| `APP_BASE_URL`                   | Yes      | Public base URL for the app.                                         |
+| `OPENAI_API_KEY`                 | No       | Server-side provider key. Without this, fallback generation is used. |
+| `OPENAI_MODEL`                   | No       | Model name. Defaults to `gpt-4.1-mini`.                              |
+| `MAX_INPUT_CHARS`                | No       | Maximum planned input size.                                          |
+| `RATE_LIMIT_REQUESTS_PER_MINUTE` | No       | Planned externalised rate limit value.                               |
+| `LOG_LEVEL`                      | No       | Runtime logging level.                                               |
+| `HUMAN_APPROVAL_REQUIRED`        | No       | Documents the expected human-review workflow.                        |
 
 ## Usage examples
 

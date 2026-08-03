@@ -5,7 +5,8 @@ export function buildPricingOptions(basePrice = 12000): PricingOption[] {
     {
       name: 'Diagnostic Sprint',
       price: Math.round(basePrice * 0.45),
-      description: 'Discovery, workflow audit, solution architecture and prioritised business case.',
+      description:
+        'Discovery, workflow audit, solution architecture and prioritised business case.',
       bestFor: 'Clients who need clarity before committing to implementation.'
     },
     {
@@ -17,7 +18,8 @@ export function buildPricingOptions(basePrice = 12000): PricingOption[] {
     {
       name: 'Transformation Retainer',
       price: Math.round(basePrice * 2.5),
-      description: 'Multi-workstream delivery, executive reporting, optimisation and continuous improvement.',
+      description:
+        'Multi-workstream delivery, executive reporting, optimisation and continuous improvement.',
       bestFor: 'Clients who need a longer-term operating partner.'
     }
   ];

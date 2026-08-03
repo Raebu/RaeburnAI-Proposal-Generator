@@ -8,6 +8,8 @@ body {
   color: white;
 }
 
-textarea, input, select {
+textarea,
+input,
+select {
   color: rgb(15, 23, 42);
 }

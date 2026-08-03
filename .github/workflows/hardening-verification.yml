@@ -13,7 +13,7 @@ concurrency:
 
 jobs:
   quality:
-    if: github.head_ref == 'production-hardening-persistence-20260726' && github.event.pull_request.head.repo.full_name == github.repository
+    if: github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-24.04
     timeout-minutes: 40
     permissions:
@@ -46,45 +46,24 @@ jobs:
       APP_BASE_URL: http://127.0.0.1:3000
       PROPOSAL_API_KEY: test-proposal-api-key-at-least-32-characters
       PROPOSAL_WORKSPACE_ID: test-workspace
-      TRUST_PROXY_HEADERS: "false"
+      TRUST_PROXY_HEADERS: 'false'
       DATABASE_URL: postgresql://proposal:proposal-ci-only@localhost:5432/proposal_generator
-      DATABASE_SSL: "false"
+      DATABASE_SSL: 'false'
       REDIS_URL: redis://localhost:6379/0
       GENERATION_MODE: deterministic
-      RATE_LIMIT_REQUESTS_PER_MINUTE: "1000"
-      HUMAN_APPROVAL_REQUIRED: "true"
-      OPENAI_TIMEOUT_MS: "5000"
-      OPENAI_MAX_RETRIES: "0"
+      RATE_LIMIT_REQUESTS_PER_MINUTE: '1000'
+      HUMAN_APPROVAL_REQUIRED: 'true'
+      OPENAI_TIMEOUT_MS: '5000'
+      OPENAI_MAX_RETRIES: '0'
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ github.head_ref }}
       - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
         with:
-          node-version: "22.17.1"
+          node-version: '22.17.1'
           package-manager-cache: false
-      - name: Generate and commit lockfile without dependency scripts
-        run: |
-          if test ! -f package-lock.json; then
-            npm install --package-lock-only --ignore-scripts --no-audit --no-fund
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add package-lock.json
-            git commit -m "Lock npm dependency graph for reproducible builds"
-            git push origin HEAD:${{ github.head_ref }}
-          fi
       - run: npm ci --no-audit --no-fund
-      - run: npm run db:migrate
-      - name: Apply repository formatter on the isolated hardening branch
-        run: |
-          npm run format
-          if ! git diff --quiet; then
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add --all
-            git commit -m "Format production hardening changes"
-            git push origin HEAD:${{ github.head_ref }}
-          fi
       - run: npm run format:check
       - run: npm run lint
       - run: npm run typecheck
@@ -93,10 +72,11 @@ jobs:
         env:
           NODE_ENV: production
           APP_BASE_URL: https://ci.proposal.invalid
-          TRUST_PROXY_HEADERS: "true"
+          TRUST_PROXY_HEADERS: 'true'
         run: npm run build
       - run: npm audit --audit-level=high
-      - run: npm run security:secrets
+      - name: Secret scan
+        run: git grep -n -I -E '(sk-[A-Za-z0-9]{20,}|AKIA[0-9A-Z]{16}|BEGIN (RSA|OPENSSH|EC) PRIVATE KEY)' -- ':!package-lock.json' && exit 1 || true
       - run: npx playwright install --with-deps chromium
       - run: npm run test:e2e
       - run: git ls-files --error-unmatch package-lock.json
@@ -112,7 +92,7 @@ jobs:
           if-no-files-found: warn
 
   codeql:
-    if: github.head_ref == 'production-hardening-persistence-20260726' && github.event.pull_request.head.repo.full_name == github.repository
+    if: github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     permissions:
@@ -127,7 +107,7 @@ jobs:
       - uses: github/codeql-action/analyze@7211b7c8077ea37d8641b6271f6a365a22a5fbfa # v4.36.0
 
   container:
-    if: github.head_ref == 'production-hardening-persistence-20260726' && github.event.pull_request.head.repo.full_name == github.repository
+    if: github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-24.04
     timeout-minutes: 40
     steps:
@@ -136,7 +116,7 @@ jobs:
           ref: ${{ github.head_ref }}
       - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
         with:
-          node-version: "22.17.1"
+          node-version: '22.17.1'
           package-manager-cache: false
       - run: test -f package-lock.json || npm install --package-lock-only --ignore-scripts --no-audit --no-fund
       - name: Validate Compose
@@ -152,7 +132,7 @@ jobs:
           image-ref: proposal-generator:${{ github.sha }}
           format: table
           output: trivy-report.txt
-          exit-code: "1"
+          exit-code: '1'
           severity: CRITICAL,HIGH
           ignore-unfixed: true
       - name: Upload vulnerability evidence

@@ -5,14 +5,30 @@ import type { ProposalOutput } from '~/lib/types/proposal';
 
 const fields = [
   ['clientName', 'Client name', 'Acme Consulting Ltd'],
-  ['clientWebsite', 'Client website/context', 'Paste website notes, service pages or positioning...'],
-  ['linkedinContext', 'LinkedIn/company context', 'Paste LinkedIn company profile, leadership notes or recent posts...'],
-  ['annualReportContext', 'Annual report/context', 'Paste annual report excerpts, strategy notes or financial priorities...'],
+  [
+    'clientWebsite',
+    'Client website/context',
+    'Paste website notes, service pages or positioning...'
+  ],
+  [
+    'linkedinContext',
+    'LinkedIn/company context',
+    'Paste LinkedIn company profile, leadership notes or recent posts...'
+  ],
+  [
+    'annualReportContext',
+    'Annual report/context',
+    'Paste annual report excerpts, strategy notes or financial priorities...'
+  ],
   ['currentPain', 'Current pain', 'What problem does the client need solved?'],
   ['desiredOutcome', 'Desired outcome', 'What result should the proposal deliver?'],
   ['budgetRange', 'Budget range', 'Example: £10k-£50k'],
   ['timelinePreference', 'Timeline preference', 'Example: 6 weeks'],
-  ['consultantPositioning', 'Your positioning', 'Example: AI automation consultant for recruitment firms']
+  [
+    'consultantPositioning',
+    'Your positioning',
+    'Example: AI automation consultant for recruitment firms'
+  ]
 ] as const;
 
 export default function HomePage() {
@@ -43,10 +59,15 @@ export default function HomePage() {
     <main className="min-h-screen bg-slate-950 text-white">
       <section className="mx-auto max-w-7xl px-6 py-10">
         <div className="mb-10 rounded-3xl border border-white/10 bg-white/5 p-8 shadow-2xl">
-          <p className="text-sm font-semibold uppercase tracking-[0.35em] text-sky-300">RaeburnAI</p>
-          <h1 className="mt-4 text-4xl font-bold tracking-tight md:text-6xl">Proposal Generator for Consultants</h1>
+          <p className="text-sm font-semibold uppercase tracking-[0.35em] text-sky-300">
+            RaeburnAI
+          </p>
+          <h1 className="mt-4 text-4xl font-bold tracking-tight md:text-6xl">
+            Proposal Generator for Consultants
+          </h1>
           <p className="mt-5 max-w-3xl text-lg text-slate-300">
-            Convert client websites, LinkedIn context and annual report notes into executive proposals, technical roadmaps, pricing, timelines and ROI estimates.
+            Convert client websites, LinkedIn context and annual report notes into executive
+            proposals, technical roadmaps, pricing, timelines and ROI estimates.
           </p>
         </div>
 
@@ -57,15 +78,30 @@ export default function HomePage() {
               {fields.map(([name, label, placeholder]) => (
                 <label key={name} className="block">
                   <span className="mb-2 block text-sm font-medium text-slate-200">{label}</span>
-                  {name === 'clientName' || name === 'budgetRange' || name === 'timelinePreference' ? (
-                    <input name={name} required={name === 'clientName'} placeholder={placeholder} className="w-full rounded-xl border border-white/10 bg-white p-3 text-slate-950" />
+                  {name === 'clientName' ||
+                  name === 'budgetRange' ||
+                  name === 'timelinePreference' ? (
+                    <input
+                      name={name}
+                      required={name === 'clientName'}
+                      placeholder={placeholder}
+                      className="w-full rounded-xl border border-white/10 bg-white p-3 text-slate-950"
+                    />
                   ) : (
-                    <textarea name={name} placeholder={placeholder} rows={4} className="w-full rounded-xl border border-white/10 bg-white p-3 text-slate-950" />
+                    <textarea
+                      name={name}
+                      placeholder={placeholder}
+                      rows={4}
+                      className="w-full rounded-xl border border-white/10 bg-white p-3 text-slate-950"
+                    />
                   )}
                 </label>
               ))}
             </div>
-            <button disabled={loading} className="mt-6 w-full rounded-xl bg-sky-400 px-5 py-3 font-bold text-slate-950 hover:bg-sky-300 disabled:opacity-60">
+            <button
+              disabled={loading}
+              className="mt-6 w-full rounded-xl bg-sky-400 px-5 py-3 font-bold text-slate-950 hover:bg-sky-300 disabled:opacity-60"
+            >
               {loading ? 'Generating...' : 'Generate proposal'}
             </button>
             {error && <p className="mt-4 rounded-xl bg-red-500/20 p-3 text-red-100">{error}</p>}
@@ -99,7 +135,9 @@ function ProposalView({ proposal }: { proposal: ProposalOutput }) {
             <div key={phase.phase} className="rounded-xl border border-slate-200 p-4">
               <p className="font-semibold">{phase.phase}</p>
               <p className="text-slate-700">{phase.objective}</p>
-              <p className="mt-2 text-sm text-slate-600">Deliverables: {phase.deliverables.join(', ')}</p>
+              <p className="mt-2 text-sm text-slate-600">
+                Deliverables: {phase.deliverables.join(', ')}
+              </p>
             </div>
           ))}
         </div>
@@ -120,7 +158,9 @@ function ProposalView({ proposal }: { proposal: ProposalOutput }) {
       <div>
         <h3 className="text-xl font-bold">Executive presentation</h3>
         <ol className="mt-3 list-decimal space-y-2 pl-5 text-slate-700">
-          {proposal.executivePresentation.map((slide) => <li key={slide}>{slide}</li>)}
+          {proposal.executivePresentation.map((slide) => (
+            <li key={slide}>{slide}</li>
+          ))}
         </ol>
       </div>
     </div>

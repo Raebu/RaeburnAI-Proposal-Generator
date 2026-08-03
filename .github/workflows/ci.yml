@@ -22,13 +22,15 @@ jobs:
           node-version: 20
           cache: npm
       - name: Install
-        run: npm install
+        run: npm ci --no-audit --no-fund
       - name: Lint
         run: npm run lint
       - name: Typecheck
         run: npm run typecheck
       - name: Unit and integration tests
         run: npm run test
+      - name: Formatting
+        run: npm run format:check
       - name: Build
         run: npm run build
       - name: Docker build
