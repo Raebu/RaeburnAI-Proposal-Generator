@@ -5,8 +5,11 @@ services:
       dockerfile: Dockerfile
     ports:
       - '3000:3000'
+    # Local secrets are optional for deterministic fallback mode; provide them
+    # explicitly in production deployment configuration.
     env_file:
-      - .env.local
+      - path: .env.local
+        required: false
     environment:
       NODE_ENV: production
       NEXT_TELEMETRY_DISABLED: '1'

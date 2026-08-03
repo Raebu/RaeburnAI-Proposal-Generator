@@ -22,17 +22,17 @@ Before remediation, `npm install --ignore-scripts` completed without a lockfile;
 
 ## Verification evidence
 
-| Check | Result |
-|---|---|
-| `npm ci --no-audit --no-fund` | Passed locally |
-| `npm run lint` | Passed, zero warnings |
-| `npm run typecheck` | Passed |
-| `npm run test` | Passed, 7 tests |
-| `npm run test:coverage` | Passed, 61.11% statements / 64.70% lines |
-| `npm run format:check` | Passed |
-| `npm run build` | Passed, 4 application routes |
+| Check                          | Result                                                                                |
+| ------------------------------ | ------------------------------------------------------------------------------------- |
+| `npm ci --no-audit --no-fund`  | Passed locally                                                                        |
+| `npm run lint`                 | Passed, zero warnings                                                                 |
+| `npm run typecheck`            | Passed                                                                                |
+| `npm run test`                 | Passed, 7 tests                                                                       |
+| `npm run test:coverage`        | Passed, 61.11% statements / 64.70% lines                                              |
+| `npm run format:check`         | Passed                                                                                |
+| `npm run build`                | Passed, 4 application routes                                                          |
 | `npm audit --audit-level=high` | Blocked: remaining Next/PostCSS advisories require a major framework/config migration |
-| E2E / preview deployment | Blocked: browser/deployment credentials and environment are not available |
+| E2E / preview deployment       | Blocked: browser/deployment credentials and environment are not available             |
 
 ## Findings and residual risk
 
