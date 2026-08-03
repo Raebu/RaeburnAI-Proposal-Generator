@@ -15,28 +15,29 @@ Before remediation, `npm install --ignore-scripts` completed without a lockfile;
 
 - Added a committed npm lockfile and changed CI to use `npm ci`.
 - Added Vitest path alias resolution and a coverage command.
-- Upgraded Next.js within the supported major line, React-compatible tooling, Playwright, PostCSS and Vitest; pinned the vulnerable transitive glob resolution.
+- Upgraded Next.js within the supported major line, React-compatible tooling, Playwright, PostCSS and Vitest; pinned vulnerable transitive glob, PostCSS and sharp resolutions.
+- Updated the Docker build to use Node 20.19 and `npm ci` so the image uses the committed graph and supported toolchain engine.
 - Made the documented rate-limit environment variable effective while retaining a safe default.
 - Removed the stale hardening-branch condition and replaced nonexistent CI scripts with checks that exist in this repository.
 - Added formatting exclusions for generated evidence directories and normalized tracked formatting.
 
 ## Verification evidence
 
-| Check                          | Result                                                                                |
-| ------------------------------ | ------------------------------------------------------------------------------------- |
-| `npm ci --no-audit --no-fund`  | Passed locally                                                                        |
-| `npm run lint`                 | Passed, zero warnings                                                                 |
-| `npm run typecheck`            | Passed                                                                                |
-| `npm run test`                 | Passed, 7 tests                                                                       |
-| `npm run test:coverage`        | Passed, 61.11% statements / 64.70% lines                                              |
-| `npm run format:check`         | Passed                                                                                |
-| `npm run build`                | Passed, 4 application routes                                                          |
-| `npm audit --audit-level=high` | Blocked: remaining Next/PostCSS advisories require a major framework/config migration |
-| E2E / preview deployment       | Blocked: browser/deployment credentials and environment are not available             |
+| Check                          | Result                                                                    |
+| ------------------------------ | ------------------------------------------------------------------------- |
+| `npm ci --no-audit --no-fund`  | Passed locally                                                            |
+| `npm run lint`                 | Passed, zero warnings                                                     |
+| `npm run typecheck`            | Passed                                                                    |
+| `npm run test`                 | Passed, 7 tests                                                           |
+| `npm run test:coverage`        | Passed, 61.11% statements / 64.70% lines                                  |
+| `npm run format:check`         | Passed                                                                    |
+| `npm run build`                | Passed, 4 application routes                                              |
+| `npm audit --audit-level=high` | Passed locally after PostCSS/sharp overrides                              |
+| E2E / preview deployment       | Blocked: browser/deployment credentials and environment are not available |
 
 ## Findings and residual risk
 
-The repository is materially more reproducible and testable, but it is not production-ready. The remaining high-risk items are: unresolved framework dependency advisories; in-memory rate limiting that is not shared across instances; no authentication, authorization, tenant isolation or proposal persistence; provider timeout/retry and usage controls are not verified; and no staging/preview deployment or rollback drill has been evidenced. The deterministic fallback is clearly labelled in documentation, but must remain visibly distinct from provider-backed output in any commercial workflow.
+The repository is materially more reproducible and testable, but it is not production-ready. The remaining high-risk items are: in-memory rate limiting that is not shared across instances; no authentication, authorization, tenant isolation or proposal persistence; provider timeout/retry and usage controls are not verified; and no staging/preview deployment or rollback drill has been evidenced. The deterministic fallback is clearly labelled in documentation, but must remain visibly distinct from provider-backed output in any commercial workflow.
 
 Initial score: 43/100  
 Current score: 67/100  
