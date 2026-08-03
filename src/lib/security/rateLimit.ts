@@ -5,10 +5,10 @@ type Bucket = {
 
 const buckets = new Map<string, Bucket>();
 
-export function checkRateLimit(key: string, limit = 20, windowMs = 60_000) {
+export function checkRateLimit(key: string, limit?: number, windowMs = 60_000) {
   const configuredLimit = Number.parseInt(process.env.RATE_LIMIT_REQUESTS_PER_MINUTE || '', 10);
   const effectiveLimit =
-    Number.isFinite(configuredLimit) && configuredLimit > 0 ? configuredLimit : limit;
+    limit ?? (Number.isFinite(configuredLimit) && configuredLimit > 0 ? configuredLimit : 20);
   const now = Date.now();
   const existing = buckets.get(key);
 
