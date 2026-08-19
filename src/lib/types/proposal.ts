@@ -1,5 +1,10 @@
 export type ProposalInput = {
+  contractVersion?: '1.0';
+  assessmentId?: string;
   clientName: string;
+  sector?: string;
+  companySize?: string;
+  decisionMaker?: { name?: string; email?: string; role?: string };
   clientWebsite?: string;
   linkedinContext?: string;
   annualReportContext?: string;
@@ -8,10 +13,31 @@ export type ProposalInput = {
   budgetRange?: string;
   timelinePreference?: string;
   consultantPositioning?: string;
+  currentWorkflows?: string[];
+  operationalPainPoints?: string[];
+  softwareStack?: string[];
+  identifiedOpportunities?: string[];
+  riskFactors?: string[];
+  implementationConstraints?: string[];
+  discoveryNotes?: string;
+  roiInputs?: {
+    people: number;
+    hoursSavedPerPersonPerWeek: number;
+    hourlyCost: number;
+    recoveryConfidencePercent: number;
+    investment: number;
+  };
 };
 
 export type ProposalOutput = {
+  contractVersion: '1.0';
+  status: 'DRAFT_REQUIRES_HUMAN_REVIEW';
+  generationMode: 'provider-generated' | 'deterministic-fallback';
   executiveSummary: string;
+  businessContext: string;
+  currentStateAssessment: string;
+  keyOperationalChallenges: string[];
+  prioritisedOpportunities: string[];
   proposal: string;
   technicalSolution: string;
   roadmap: RoadmapPhase[];
@@ -19,6 +45,9 @@ export type ProposalOutput = {
   timeline: TimelineItem[];
   roiEstimate: RoiEstimate;
   risks: RiskItem[];
+  governance: string[];
+  responsibleAiConsiderations: string[];
+  nextSteps: string[];
   executivePresentation: string[];
 };
 
@@ -46,6 +75,10 @@ export type RoiEstimate = {
   assumptions: string[];
   monthlySavingsLow: number;
   monthlySavingsHigh: number;
+  annualSavingsLow: number;
+  annualSavingsHigh: number;
+  firstYearRoiPercentLow: number;
+  firstYearRoiPercentHigh: number;
   paybackMonthsLow: number;
   paybackMonthsHigh: number;
   narrative: string;

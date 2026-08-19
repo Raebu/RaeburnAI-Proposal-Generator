@@ -1,11 +1,51 @@
 {
+  "contractVersion": "1.0",
   "clientName": "Northstar Advisory Group",
+  "sector": "Professional & Management Consulting",
+  "companySize": "50-200 employees",
+  "decisionMaker": {
+    "name": "Sarah Jenkins",
+    "email": "s.jenkins@northstar-advisory.example",
+    "role": "Managing Director"
+  },
   "clientWebsite": "UK consulting firm serving mid-market businesses with operational improvement and technology transformation services.",
-  "linkedinContext": "Leadership team is posting about AI adoption, productivity and customer experience improvement.",
-  "annualReportContext": "The organisation is prioritising margin improvement, faster reporting, better client delivery consistency and practical AI enablement.",
-  "currentPain": "Proposal creation, discovery synthesis and roadmap production are manual and inconsistent across consultants.",
-  "desiredOutcome": "Create a repeatable AI-assisted proposal workflow that saves consultant time and improves commercial quality.",
-  "budgetRange": "£15k-£40k",
+  "linkedinContext": "Leadership team is actively posting about AI adoption, consultant productivity, and client delivery excellence.",
+  "annualReportContext": "The organisation is prioritising margin expansion, faster client engagement turnarounds, and enterprise AI enablement.",
+  "currentPain": "Proposal drafting, discovery synthesis, and ROI roadmap production are highly manual, taking 15-20 hours per engagement.",
+  "desiredOutcome": "Establish a standardized, AI-assisted proposal engine that reduces drafting time by 75% while maintaining elite consulting quality.",
+  "budgetRange": "£15,000 - £40,000",
   "timelinePreference": "6 weeks",
-  "consultantPositioning": "AI workflow and automation partner for consulting teams."
+  "consultantPositioning": "Raeburn Consulting Group — AI Workflow & Transformation Practice",
+  "currentWorkflows": [
+    "Client discovery notes transcription",
+    "Manual proposal writing in Word/PowerPoint",
+    "Ad-hoc ROI spreadsheet calculations"
+  ],
+  "operationalPainPoints": [
+    "Inconsistent proposal pricing & risk coverage across senior consultants",
+    "Significant billable hours wasted on draft document preparation",
+    "Slower client response times during peak acquisition cycles"
+  ],
+  "softwareStack": ["Microsoft 365 / Teams", "HubSpot CRM", "Custom Excel financial models"],
+  "identifiedOpportunities": [
+    "Automated client context extraction & schema validation",
+    "Deterministic ROI payback calculator integration",
+    "One-click executive deck and proposal export"
+  ],
+  "riskFactors": [
+    "Consultant adoption resistance to new workflow tools",
+    "Client confidentiality & data privacy governance concerns"
+  ],
+  "implementationConstraints": [
+    "Zero retention of confidential client context on external AI servers",
+    "Full compatibility with existing web browser environment"
+  ],
+  "discoveryNotes": "Initial scoping call confirmed strong partner support for AI enablement, provided human review remains mandatory before proposals reach clients.",
+  "roiInputs": {
+    "people": 25,
+    "hoursSavedPerPersonPerWeek": 4,
+    "hourlyCost": 65,
+    "recoveryConfidencePercent": 85,
+    "investment": 15000
+  }
 }

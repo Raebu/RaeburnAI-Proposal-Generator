@@ -1,16 +1,16 @@
 # RaeburnAI Proposal Generator
 
-![Status](https://img.shields.io/badge/status-production--baseline-blue) ![TypeScript](https://img.shields.io/badge/typescript-strict-blue) ![License](https://img.shields.io/badge/license-Apache--2.0-green)
+![Status](https://img.shields.io/badge/status-release--candidate-blue) ![TypeScript](https://img.shields.io/badge/typescript-strict-blue) ![License](https://img.shields.io/badge/license-Apache--2.0-green)
 
 ## One-line positioning statement
 
-AI proposal and solution generator for consultants.
+Commercial AI proposal and solution engine for management and technology consultants.
 
 ## Short product description
 
-RaeburnAI Proposal Generator helps consultants convert client website notes, LinkedIn context, annual report excerpts and discovery pain points into structured proposals, implementation roadmaps, pricing options, delivery timelines, ROI estimates and executive presentation outlines.
+RaeburnAI Proposal Generator is the commercial proposal engine used by **Raeburn Consulting Group** to transform client discovery notes, website context, annual report excerpts, and operational parameters into structured, executive-grade client proposals, technical roadmaps, commercial pricing options, deterministic ROI payback models, and 5-slide pitch presentation outlines.
 
-The product is designed for consultant-led review. AI output is draft advisory content, not an automatic commitment, quote or legal document.
+The product enforces strict schema validation (Contract Version 1.0), prompt injection defence boundaries, and human-in-the-loop governance. AI model outputs are parsed and validated via Zod, with financial calculations reconciled against deterministic domain calculators.
 
 ## Part of the RaeburnAI Platform
 
@@ -27,36 +27,31 @@ RaeburnAI is an enterprise AI platform for practical business transformation. Ea
 
 ## Core features
 
-- Client context capture for website, LinkedIn and annual report notes
-- AI proposal generation API
-- Executive summary and technical solution generation
-- Implementation roadmap generation
-- Pricing option generation
-- ROI estimate generation
-- Timeline and risk register output
-- Executive presentation outline generation
-- Health check endpoint
-- Zod input validation
-- Basic rate limiting
-- Structured audit logging
-- Docker and Docker Compose deployment path
-- CI, CodeQL and Dependabot configuration
+- **Contract 1.0 Consulting Schema**: Full structured coverage across 14 commercial proposal sections.
+- **Client Context Capture**: Ingest client website excerpts, LinkedIn profile notes, annual report priorities, and operational pain points.
+- **Deterministic ROI & Financial Payback Model**: Capacity recovery confidence factors, blended hourly rates, monthly and annualised capacity-value ranges, first-year ROI, and payback calculation with explicit limitations.
+- **AI Generation Engine**: Server-side OpenAI provider integration with 25-second timeout, graceful error handling, and deterministic fallback mode.
+- **Prompt Injection Defence**: XML/markdown context boundary isolation and input sanitisation.
+- **Strict Zod Output Validation**: Raw AI output is schema-validated before returning to caller; invalid model responses trigger safe fallback.
+- **Commercial UI / UX**: Executive dark-mode consultant workspace, 1-click Demo Data Loader, Copy-to-Clipboard, JSON download, and `@media print` PDF export styling.
+- **Security & Rate Limiting**: In-memory rate limiting with expired bucket garbage collection, payload size checks (1MB max), anti-framing/content-type/referrer/permissions headers, and privacy-safe audit logging.
+- **Operational Health Check**: `GET /api/health` endpoint reporting process, application, and provider configuration status.
+- **Container Deployment**: Multi-stage Dockerfile and Docker Compose configuration for the documented single-instance deployment.
 
 ## Architecture
 
 ```text
 src/app                    Next.js App Router pages and API routes
-src/app/api/health          Operational health endpoint
-src/app/api/proposals       Proposal generation endpoint
-src/lib/ai                  Prompt and provider integration
-src/lib/proposals           Domain schemas, pricing and ROI calculators
-src/lib/security            Rate limiting, audit logging and safe errors
-src/lib/types               Shared TypeScript proposal contracts
-examples                    Demo input data
-docs                        Production and screenshot documentation
+src/app/api/health         Operational health check endpoint
+src/app/api/proposals      Proposal generation API endpoint with rate limit & payload checks
+src/lib/ai                 Prompt builder, OpenAI integration, fallback, and financial reconciliation
+src/lib/proposals          Domain schemas (Zod input & output) and deterministic financial calculators
+src/lib/security           Rate limiting with GC, audit logging with redaction, safe error handling
+src/lib/types              Shared TypeScript proposal contract (Version 1.0)
+examples                   Demo client context payload (demo-client.json)
+docs                       Production readiness audit and deployment documentation
+tests                      Vitest unit/integration tests and Playwright E2E tests
 ```
-
-The current implementation uses a server-side OpenAI-compatible generation layer with a deterministic fallback when no provider key is configured. Proposal storage, user accounts and workspace RBAC are intentionally marked as roadmap items rather than faked.
 
 ## Quick start
 
@@ -68,25 +63,19 @@ npm install
 npm run dev
 ```
 
-Open `http://localhost:3000`.
+Open `http://localhost:3000`. Click **⚡ Load Demo Client Data** to test the system in one click.
 
 ## Environment variables
 
-| Variable                         | Required | Description                                                          |
-| -------------------------------- | -------- | -------------------------------------------------------------------- |
-| `APP_BASE_URL`                   | Yes      | Public base URL for the app.                                         |
-| `OPENAI_API_KEY`                 | No       | Server-side provider key. Without this, fallback generation is used. |
-| `OPENAI_MODEL`                   | No       | Model name. Defaults to `gpt-4.1-mini`.                              |
-| `MAX_INPUT_CHARS`                | No       | Maximum planned input size.                                          |
-| `RATE_LIMIT_REQUESTS_PER_MINUTE` | No       | Planned externalised rate limit value.                               |
-| `LOG_LEVEL`                      | No       | Runtime logging level.                                               |
-| `HUMAN_APPROVAL_REQUIRED`        | No       | Documents the expected human-review workflow.                        |
+| Variable                         | Required    | Description                                                                     |
+| -------------------------------- | ----------- | ------------------------------------------------------------------------------- |
+| `OPENAI_API_KEY`                 | Conditional | Required for live AI generation. Without it, a labelled fallback draft is used. |
+| `OPENAI_MODEL`                   | No          | OpenAI model identifier (default: `gpt-4.1-mini`).                              |
+| `RATE_LIMIT_REQUESTS_PER_MINUTE` | No          | Max API requests per minute per caller IP (default: `20`).                      |
 
 ## Usage examples
 
-Use the demo payload in [`examples/demo-client.json`](examples/demo-client.json), or submit equivalent context through the web UI.
-
-API example:
+Use the demo payload in [`examples/demo-client.json`](examples/demo-client.json):
 
 ```bash
 curl -X POST http://localhost:3000/api/proposals \
@@ -102,29 +91,28 @@ curl http://localhost:3000/api/health
 
 ## Security model
 
-- API keys stay server-side only
-- User input is validated with Zod
-- Proposal generation is rate-limited per caller key
-- Sensitive actions are audit logged
-- Errors are returned through a safe error helper
-- Security headers are configured in Next.js
-- CodeQL scans run through GitHub Actions
-- Dependabot is configured for dependency maintenance
-- Generated proposals require human review before being sent to clients
-- No client data or secrets should be committed to the repository
+- API keys remain strictly server-side.
+- Inputs are validated via Zod (`proposalInputSchema`) with 1MB payload limits.
+- Model responses are schema-validated via Zod (`proposalOutputSchema`).
+- Rate limiting per client IP with automatic memory garbage collection.
+- Audit logs redact sensitive keys, tokens, and credentials.
+- Error messages are sanitized to prevent leaking stack traces or internal environment details.
+- Security headers configured in Next.js (`X-Frame-Options DENY`, `X-Content-Type-Options nosniff`, `Referrer-Policy`, and restrictive feature permissions).
+- Generated proposals explicitly display `DRAFT_REQUIRES_HUMAN_REVIEW` status.
 
-Known limitation: rate limiting is currently in-memory and should be replaced with Redis or edge rate limiting for multi-instance production deployments.
+## Production verification
 
-## Production readiness
-
-Production baseline is in place for an open-source module:
+Run the complete production verification gate:
 
 ```bash
-npm install
+npm ci
 npm run lint
 npm run typecheck
 npm run test
+npm run test:coverage
+npm run format:check
 npm run build
+npx playwright test
 docker build -t raeburnai-proposal-generator .
 ```
 
@@ -134,26 +122,7 @@ Docker Compose:
 docker compose up --build
 ```
 
-See [`docs/production.md`](docs/production.md) for deployment notes.
-
-## Roadmap
-
-- PDF and DOCX proposal export
-- PPTX executive deck export
-- Persistent proposal history
-- Workspace authentication and RBAC
-- Redis-backed rate limiting
-- Full document upload and retrieval pipeline
-- CRM integrations
-- Proposal approval workflows
-- Multi-model provider support
-- Organisation analytics
-
-See [`ROADMAP.md`](ROADMAP.md).
-
-## Contributing
-
-Contributions are welcome. Please read [`CONTRIBUTING.md`](CONTRIBUTING.md), keep changes typed and tested, and maintain the shared RaeburnAI platform style.
+See [`docs/production.md`](docs/production.md) for full operational guidelines.
 
 ## Licence
 

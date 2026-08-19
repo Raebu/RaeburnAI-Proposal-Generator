@@ -13,3 +13,35 @@ input,
 select {
   color: rgb(15, 23, 42);
 }
+
+@media print {
+  @page {
+    size: A4;
+    margin: 14mm;
+  }
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .print-only {
+    display: block !important;
+  }
+  .proposal-print-container {
+    background: white !important;
+    color: black !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    max-width: 100% !important;
+  }
+  .proposal-print-container > div > div {
+    break-inside: avoid-page;
+  }
+  .proposal-print-container table,
+  .proposal-print-container tr {
+    break-inside: avoid-page;
+  }
+}
