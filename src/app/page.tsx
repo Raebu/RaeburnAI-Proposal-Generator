@@ -503,7 +503,7 @@ function ProposalView({
           DEMONSTRATION DATA — NOT FOR CLIENT USE
         </div>
       )}
-      <div className="flex items-center justify-between border-b border-slate-200 pb-4">
+      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 pb-4">
         <div>
           <div className="flex items-center space-x-2">
             <span className="rounded-full bg-amber-100 px-3 py-1 text-xs font-bold text-amber-800 border border-amber-300">
@@ -523,7 +523,7 @@ function ProposalView({
           </p>
         </div>
 
-        <div className="no-print flex items-center space-x-2">
+        <div className="no-print flex flex-wrap items-center gap-2">
           <button
             type="button"
             onClick={onCopy}
@@ -625,9 +625,7 @@ function ProposalView({
                 <span className="text-xs font-bold uppercase tracking-wider text-sky-700">
                   {option.name}
                 </span>
-                <p className="mt-2 text-2xl font-black text-slate-900">
-                  £{option.price.toLocaleString()}
-                </p>
+                <p className="mt-2 text-2xl font-black text-slate-900">{option.priceLabel}</p>
                 <p className="mt-2 text-xs text-slate-600 leading-relaxed">{option.description}</p>
               </div>
               <div className="mt-4 pt-3 border-t border-slate-100 text-[11px] text-slate-500">

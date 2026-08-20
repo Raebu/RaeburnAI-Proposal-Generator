@@ -10,6 +10,10 @@
 
 # next.js build output
 /.next/
+/.open-next/
+/.wrangler/
+/.wrangler-dry-run/
+/*.cpuprofile
 /out/
 
 # production

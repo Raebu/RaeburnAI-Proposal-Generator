@@ -34,9 +34,9 @@ RaeburnAI is an enterprise AI platform for practical business transformation. Ea
 - **Prompt Injection Defence**: XML/markdown context boundary isolation and input sanitisation.
 - **Strict Zod Output Validation**: Raw AI output is schema-validated before returning to caller; invalid model responses trigger safe fallback.
 - **Commercial UI / UX**: Executive dark-mode consultant workspace, 1-click Demo Data Loader, Copy-to-Clipboard, JSON download, and `@media print` PDF export styling.
-- **Security & Rate Limiting**: In-memory rate limiting with expired bucket garbage collection, payload size checks (1MB max), anti-framing/content-type/referrer/permissions headers, and privacy-safe audit logging.
+- **Security & Rate Limiting**: Cloudflare edge rate limiting for production, defence-in-depth in-memory limiting, 1MB application payload checks, security headers, and privacy-safe audit logging.
 - **Operational Health Check**: `GET /api/health` endpoint reporting process, application, and provider configuration status.
-- **Container Deployment**: Multi-stage Dockerfile and Docker Compose configuration for the documented single-instance deployment.
+- **Cloudflare Workers Deployment**: Next.js on Workers through the official OpenNext Cloudflare adapter, protected by Cloudflare Access. Docker remains available for local/secondary deployment.
 
 ## Architecture
 
@@ -67,11 +67,14 @@ Open `http://localhost:3000`. Click **⚡ Load Demo Client Data** to test the sy
 
 ## Environment variables
 
-| Variable                         | Required    | Description                                                                     |
-| -------------------------------- | ----------- | ------------------------------------------------------------------------------- |
-| `OPENAI_API_KEY`                 | Conditional | Required for live AI generation. Without it, a labelled fallback draft is used. |
-| `OPENAI_MODEL`                   | No          | OpenAI model identifier (default: `gpt-4.1-mini`).                              |
-| `RATE_LIMIT_REQUESTS_PER_MINUTE` | No          | Max API requests per minute per caller IP (default: `20`).                      |
+| Variable                         | Required    | Description                                                                        |
+| -------------------------------- | ----------- | ---------------------------------------------------------------------------------- |
+| `OPENAI_API_KEY`                 | Conditional | Required for live AI generation. Without it, a labelled fallback draft is used.    |
+| `OPENAI_MODEL`                   | No          | OpenAI model identifier (default: `gpt-4.1-mini`).                                 |
+| `RATE_LIMIT_REQUESTS_PER_MINUTE` | No          | Defence-in-depth per-isolate limit (default: `20`); not the production edge limit. |
+| `TRUST_PROXY_HEADERS`            | No          | Docker-only trusted proxy mode. Keep `false` on Cloudflare Workers.                |
+| `PROPOSAL_API_KEY`               | Production  | Bearer key shared only with the AI_Website server.                                 |
+| `TRUST_CLOUDFLARE_ACCESS`        | No          | Allows browser generation only behind fully enforced Cloudflare Access.            |
 
 ## Usage examples
 
@@ -80,6 +83,7 @@ Use the demo payload in [`examples/demo-client.json`](examples/demo-client.json)
 ```bash
 curl -X POST http://localhost:3000/api/proposals \
   -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $PROPOSAL_API_KEY" \
   -d @examples/demo-client.json
 ```
 
@@ -87,6 +91,7 @@ Health check:
 
 ```bash
 curl http://localhost:3000/api/health
+curl http://localhost:3000/api/readiness
 ```
 
 ## Security model
@@ -112,17 +117,33 @@ npm run test
 npm run test:coverage
 npm run format:check
 npm run build
+npm run cf:build
+npx wrangler deploy --dry-run
 npx playwright test
 docker build -t raeburnai-proposal-generator .
 ```
 
-Docker Compose:
+Cloudflare workerd preview:
+
+```bash
+npm run preview
+```
+
+Set the production OpenAI secret interactively before deployment:
+
+```bash
+npx wrangler secret put OPENAI_API_KEY
+```
+
+Docker Compose remains supported as a secondary/local option:
 
 ```bash
 docker compose up --build
 ```
 
 See [`docs/production.md`](docs/production.md) for full operational guidelines.
+
+The cross-repository source-of-truth, customer journey and delivery mapping are documented in `AI_Website/RAEBURN_AI_TRANSFORMATION_SERVICE.md` in the canonical consulting repository.
 
 ## Licence
 

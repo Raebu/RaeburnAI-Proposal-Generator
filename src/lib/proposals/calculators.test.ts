@@ -4,16 +4,20 @@ import { buildPricingOptions, estimateRoi } from './calculators';
 describe('proposal calculators', () => {
   it('creates pricing options based on base investment', () => {
     const options = buildPricingOptions(20000);
-    expect(options.length).toBe(3);
-    expect(options[0].name).toBe('Diagnostic Sprint');
-    expect(options[0].price).toBe(9000);
-    expect(options[1].price).toBe(20000);
-    expect(options[2].price).toBe(50000);
+    expect(options.length).toBe(4);
+    expect(options[0]).toMatchObject({
+      name: 'AI Workflow & Automation Audit',
+      price: 750,
+      priceLabel: '£750'
+    });
+    expect(options[1]).toMatchObject({ price: 2500, priceLabel: 'From £2,500' });
+    expect(options[2]).toMatchObject({ price: 20000, priceLabel: '£20,000+' });
+    expect(options[3].priceLabel).toBe('£500–£1,500 per month');
   });
 
   it('handles negative or invalid base price gracefully', () => {
     const options = buildPricingOptions(-5000);
-    expect(options[1].price).toBe(12000); // defaults to safe base 12000
+    expect(options[2].price).toBe(5000);
   });
 
   it('estimates commercial value with confidence factor and custom inputs', () => {
@@ -60,7 +64,8 @@ describe('proposal calculators', () => {
       recoveryConfidencePercent: 0,
       investment: 0
     });
-    expect(roi.assumptions).toContain('1 process participants / affected team members');
+    expect(roi.assumptions).toContain('Affected team size not yet verified');
+    expect(roi.narrative).toContain('not yet calculable');
     expect(
       Object.values(roi)
         .filter((value) => typeof value === 'number')

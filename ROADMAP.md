@@ -12,13 +12,14 @@
 - [x] Audit logging with credential masking and payload size enforcement
 - [x] Operational health endpoint (`/api/health`)
 - [x] Multi-stage Docker container and Docker Compose configuration
+- [x] Cloudflare Workers deployment via `@opennextjs/cloudflare`, Wrangler, and workerd CI preview
 - [x] Vitest unit/integration suite and Playwright E2E suite
 
 ## Next (v1.1)
 
 - PDF and DOCX proposal template rendering
 - PPTX 5-slide executive presentation export
-- Redis-backed rate limiting for multi-instance clusters
+- Cloudflare dashboard/API automation for Access, WAF rate-limit rules, and alert policies
 - Optional persistent proposal storage with workspace isolation
 - Multi-model provider support (Anthropic, Gemini, OpenAI)
 

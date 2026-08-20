@@ -1,98 +1,154 @@
-# Production Deployment & Operations Guide — RaeburnAI Proposal Generator
+# Production Deployment & Operations — Cloudflare Workers
 
-This application runs as a Next.js standalone service on Node.js 20.
+Cloudflare Workers is the primary production target. Next.js runs through
+`@opennextjs/cloudflare`; Docker remains a secondary local or controlled single-instance option.
 
-## Production Architecture & Operational Design
+## Production topology
 
-- **Stateless Engine**: The application processes incoming client context, synthesises proposal content via OpenAI (or deterministic fallback), validates output via Zod schemas, and returns the generated proposal directly to the consultant.
-- **Client Data Protection**: Client context and discovery notes are processed strictly in-memory during the request lifecycle and are never persisted to disk or logged in plain text.
-- **Financial Reconciliation**: AI-proposed financial figures are validated against deterministic calculators (`calculators.ts`). Stated pricing and ROI payback months are calculated deterministically to prevent commercial discrepancies.
+```text
+proposal.theraeburngroup.com
+  -> Cloudflare DNS and managed TLS
+  -> Cloudflare Access (Raeburn-controlled policy)
+  -> Cloudflare Worker / OpenNext / Next.js
+  -> OpenAI API
+```
 
-## Release & Verification Gate
+The service is stateless. Client context and generated proposals exist only during the request and
+in the consultant's browser response; the application has no database, object-store, KV, or R2
+proposal persistence. Financial figures remain reconciled by the deterministic calculators and all
+output remains `DRAFT_REQUIRES_HUMAN_REVIEW`.
 
-Run the standard production gate before deploying:
+## Release verification gate
+
+Run from a clean checkout of the intended release SHA:
 
 ```bash
 npm ci
+npm run format:check
 npm run lint
 npm run typecheck
 npm run test
 npm run test:coverage
-npm run format:check
 npm run build
-npx playwright test
-docker build -t raeburnai-proposal-generator .
+npm run cf-typegen
+npm run cf:build
+npx wrangler deploy --dry-run --outdir .wrangler-dry-run
+npm run preview
 ```
 
-## Production Runtime Configuration
-
-Inject secrets through the deployment platform or container environment; do not bake an
-`.env.local` file into the image. `OPENAI_API_KEY` is required only for live AI generation.
-Without it, the UI clearly labels output as a deterministic fallback draft.
-
-```env
-OPENAI_API_KEY=sk-proj-your-actual-api-key
-OPENAI_MODEL=gpt-4.1-mini
-RATE_LIMIT_REQUESTS_PER_MINUTE=20
-```
-
-## Docker Container Deployment
-
-Build and launch via Docker Compose:
+Run Playwright against the workerd preview in a second shell:
 
 ```bash
-docker compose up --build -d
+PLAYWRIGHT_BASE_URL=http://127.0.0.1:8787 PLAYWRIGHT_SKIP_WEBSERVER=1 npm run test:e2e
 ```
 
-Verify health:
+The standard Next.js build is retained for Docker compatibility. `next dev` is not evidence of
+Workers compatibility.
+
+## Runtime configuration and secrets
+
+Non-secret settings are defined in `wrangler.jsonc`. Set the OpenAI credential interactively in
+Cloudflare; never put its value in source, `.dev.vars`, `wrangler.jsonc`, CI logs, fixtures, or a
+client-visible `NEXT_PUBLIC_*` variable:
 
 ```bash
-curl http://localhost:3000/api/health
+npx wrangler secret put OPENAI_API_KEY
+npx wrangler secret put PROPOSAL_API_KEY
 ```
 
-Expected response:
+Verify only the secret name is present:
 
-```json
-{
-  "status": "ok",
-  "service": "raeburnai-proposal-generator",
-  "timestamp": "2026-08-15T17:30:00.000Z",
-  "version": "1.0.0-rc.1",
-  "mode": "provider-backed",
-  "checks": {
-    "process": "alive",
-    "application": "healthy",
-    "aiProviderConfigured": true
-  }
-}
+```bash
+npx wrangler secret list
 ```
 
-## Security & Operational Safeguards
+`OPENAI_MODEL`, `RATE_LIMIT_REQUESTS_PER_MINUTE`, `TRUST_PROXY_HEADERS`, and
+`TRUST_CLOUDFLARE_ACCESS` are non-secret runtime settings. Keep `TRUST_PROXY_HEADERS=false` on
+Workers. Set `TRUST_CLOUDFLARE_ACCESS=true` only after Access covers the custom domain and every
+alternate Worker route is disabled. The generated `cloudflare-env.d.ts` describes bindings but is
+excluded from application TypeScript compilation because Next.js accesses environment variables
+through `process.env`.
 
-1. **HTTPS Enforcement**: Ensure the reverse proxy (Nginx, Traefik, Cloudflare, or AWS ALB) terminates TLS and forwards original client IP in `X-Forwarded-For`.
-2. **Rate Limiting / Intended Topology**: The initial supported deployment is a single application instance behind one trusted TLS-terminating reverse proxy. The proxy must overwrite (not append an untrusted client value to) `X-Forwarded-For`. In-memory rate limiting is not suitable for multiple replicas. Before load balancing or horizontal scaling, enforce distributed rate limits at Cloudflare (preferred when it is the edge) or use a Redis-backed limiter.
-3. **Human Review**: All output carries status `DRAFT_REQUIRES_HUMAN_REVIEW`. Senior consultants must review proposals before client submission.
+## Cloudflare configuration checklist
 
-## Initial single-instance deployment checklist
+The repository cannot provision or attest account-level controls. The deployment owner must retain
+evidence for every unchecked item before commercial use:
 
-The repository does not provision a domain, DNS, TLS, authentication gateway or monitoring.
-Before handling client-confidential data, the deployment owner must complete and retain evidence
-for every item:
+- [ ] Confirm the Cloudflare account owns `theraeburngroup.com` and the Worker custom domain creates
+      the proxied DNS record for `proposal.theraeburngroup.com`.
+- [ ] Confirm Universal SSL is active, minimum TLS meets Raeburn policy, HTTP redirects to HTTPS,
+      and the full certificate chain validates.
+- [ ] Protect the Worker (all traffic, including preview/`workers.dev` routes) with a
+      Raeburn-controlled Cloudflare Access allow policy; demonstrate unauthenticated denial and
+      authorised access. Do not create duplicate application authentication.
+- [ ] Disable or protect alternate routes so the custom hostname cannot be bypassed.
+- [ ] Create a Cloudflare WAF rate-limiting rule for `POST /api/proposals`, keyed by the appropriate
+      Access identity or Cloudflare client characteristic. The per-isolate application limiter is
+      defence in depth and is not an authoritative distributed control.
+- [ ] Configure alerts for Worker errors/exceptions, elevated 5xx/429 rates, CPU or memory limit
+      failures, and OpenAI latency/error degradation. Retain screenshots or exported configuration.
+- [ ] Confirm Workers Logs retention and access meet Raeburn policy. Logs must not contain request
+      bodies, client context, proposal/model content, credentials, or raw provider exceptions.
+- [ ] Record approval of the OpenAI account's retention, training, region, and access controls before
+      processing confidential data.
 
-- [ ] Point the approved domain and DNS record at the TLS-terminating edge/reverse proxy.
-- [ ] Enforce HTTPS, install an approved certificate, redirect HTTP, and validate the full chain.
-- [ ] Configure one trusted reverse proxy to overwrite `X-Forwarded-For` with the connecting client IP; reject or replace inbound client-supplied values rather than appending them.
-- [ ] Place the application behind Raeburn Consulting Group SSO, VPN, or an equivalent access gateway and verify unauthenticated access is denied.
-- [ ] Inject `OPENAI_API_KEY` at runtime from the approved secret manager; never add it to the image, repository, browser environment, or deployment manifest.
-- [ ] Record approval of the OpenAI account's data-retention, model-training, region, and access controls before sending confidential client data.
-- [ ] Run exactly one application replica and set explicit CPU and memory limits based on a representative proposal-generation load test.
-- [ ] Configure an `on-failure` or platform-equivalent restart policy and demonstrate recovery from a terminated process.
-- [ ] Configure the platform health probe against `GET /api/health` with suitable startup grace, interval, timeout, and failure thresholds.
-- [ ] Send stdout/stderr operational logs to approved storage; verify that request bodies, proposal content, client identifiers, and secrets are absent.
-- [ ] Alert on failed health probes, elevated 5xx and 429 rates, resource saturation, restarts, and AI-provider latency/error rates.
-- [ ] From the production network, generate a synthetic non-confidential provider-backed proposal and verify outbound OpenAI connectivity and `generationMode: provider-generated`.
-- [ ] In a controlled test environment using the production network path, delay or block the provider response and verify fallback occurs at the 25-second application timeout without secret or client-data leakage.
-- [ ] Run backup/recovery checks only if persistence is later added; the current service stores no proposals.
+Cloudflare overwrites `CF-Connecting-IP` at its edge; the application pseudonymises that value for
+audit events. It ignores `X-Forwarded-For` on Workers. Never enable `TRUST_PROXY_HEADERS` there.
 
-Passing local Docker checks does not constitute verification of domain, HTTPS, DNS, external
-monitoring or production AI connectivity.
+## Build, preview, and deploy
+
+Authenticate Wrangler using a least-privilege interactive login or CI API token, then confirm the
+intended account:
+
+```bash
+npx wrangler whoami
+npm run cf:build
+npx wrangler deploy --dry-run --outdir .wrangler-dry-run
+npm run deploy
+```
+
+The deployment command creates/updates the Worker and the declared custom domain. It does not create
+the required Access policy, WAF rate-limit rule, alert policies, or OpenAI secret.
+
+## Post-deployment acceptance
+
+From the production network and through Cloudflare Access:
+
+- Record the release Git SHA, package version, Wrangler version, deployed Worker version, and bundle
+  gzip size.
+- Validate DNS, TLS chain, HTTP-to-HTTPS redirect, Access denial/allow, and absence of bypass routes.
+- Verify `GET /api/health` and `GET /api/readiness` report the expected service mode without
+  revealing a secret.
+- Generate a synthetic non-confidential proposal with the approved OpenAI credential and confirm
+  `generationMode: provider-generated`, schema `1.0`, deterministic pricing/ROI/payback, and human
+  review status.
+- In a controlled preview/environment on the production network, verify invalid-key fallback,
+  malformed-model-output fallback, and the 25-second provider timeout. Do not replace the approved
+  production secret merely to test failure behavior.
+- Verify the 1MB application payload limit and the Cloudflare edge rate-limit rule.
+- Inspect browser storage, response headers, client bundles, clipboard, JSON download, print/PDF,
+  and mobile layout. Confirm no secret or confidential proposal content is persisted.
+- Inspect sampled logs and alerts using synthetic markers; confirm client content and provider
+  exception detail are absent.
+
+Do not claim production acceptance from local workerd results alone.
+
+## Workers Free-plan assessment
+
+Wrangler's dry run is authoritative for compressed bundle size. Workers Free currently permits a
+3 MB gzip Worker, 128 MB per isolate, 50 subrequests per invocation, 100,000 requests/day, and 10 ms
+CPU per HTTP request. The proposal path makes one OpenAI subrequest and buffers at most the enforced
+1MB application payload. Waiting for OpenAI does not count as CPU time.
+
+The 10 ms Free CPU allowance is the viability risk: Next.js server rendering, Zod parsing, prompt
+construction, schema validation, and deterministic calculations must be measured in deployed
+Workers metrics under representative load. Local elapsed time is not equivalent to Cloudflare CPU
+time. If production p95 CPU exceeds the Free allowance or generates `exceededCpu`, the smallest
+viable change is upgrading to Workers Paid; no product rewrite or Redis service is required.
+
+## Docker secondary deployment
+
+Docker remains available through `docker compose up --build`. It supports only one application
+instance behind a trusted TLS proxy that overwrites `X-Forwarded-For`; set
+`TRUST_PROXY_HEADERS=true` only in that topology. Docker deployment does not satisfy the primary
+Cloudflare production checklist.

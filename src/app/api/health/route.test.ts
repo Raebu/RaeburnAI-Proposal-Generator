@@ -9,7 +9,7 @@ describe('GET /api/health', () => {
     const json = await res.json();
     expect(json.status).toBe('ok');
     expect(json.service).toBe('raeburnai-proposal-generator');
-    expect(json.version).toBe('1.0.0-rc.1');
+    expect(json.version).toBe('1.0.0-rc.2');
     expect(json.mode).toBeDefined();
     expect(json.checks).toEqual({
       process: 'alive',

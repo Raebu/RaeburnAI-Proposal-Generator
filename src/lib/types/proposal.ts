@@ -43,6 +43,7 @@ export type ProposalOutput = {
   roadmap: RoadmapPhase[];
   pricing: PricingOption[];
   timeline: TimelineItem[];
+  dependencies: string[];
   roiEstimate: RoiEstimate;
   risks: RiskItem[];
   governance: string[];
@@ -61,6 +62,7 @@ export type RoadmapPhase = {
 export type PricingOption = {
   name: string;
   price: number;
+  priceLabel: string;
   description: string;
   bestFor: string;
 };

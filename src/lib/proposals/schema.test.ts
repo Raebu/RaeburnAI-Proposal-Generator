@@ -4,11 +4,11 @@ import { fallbackProposal } from '~/lib/ai/generateProposal';
 
 describe('proposal schemas', () => {
   describe('proposalInputSchema', () => {
-    it('accepts a valid minimum payload with defaults', () => {
+    it('accepts a valid minimum payload without inventing ROI assumptions', () => {
       const result = proposalInputSchema.parse({ clientName: 'Example Client' });
       expect(result.clientName).toBe('Example Client');
       expect(result.contractVersion).toBe('1.0');
-      expect(result.roiInputs?.people).toBe(20);
+      expect(result.roiInputs).toBeUndefined();
     });
 
     it('accepts a full payload with extended ROI inputs and context arrays', () => {
@@ -29,7 +29,7 @@ describe('proposal schemas', () => {
 
       const result = proposalInputSchema.parse(payload);
       expect(result.clientName).toBe('Acme Corp');
-      expect(result.roiInputs.people).toBe(50);
+      expect(result.roiInputs?.people).toBe(50);
       expect(result.currentWorkflows).toHaveLength(2);
     });
 
@@ -56,7 +56,8 @@ describe('proposal schemas', () => {
       if (parseResult.success) {
         expect(parseResult.data.contractVersion).toBe('1.0');
         expect(parseResult.data.status).toBe('DRAFT_REQUIRES_HUMAN_REVIEW');
-        expect(parseResult.data.pricing).toHaveLength(3);
+        expect(parseResult.data.pricing).toHaveLength(4);
+        expect(parseResult.data.dependencies.length).toBeGreaterThan(0);
         expect(parseResult.data.roadmap.length).toBeGreaterThan(0);
       }
     });

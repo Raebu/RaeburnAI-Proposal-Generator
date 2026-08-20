@@ -7,16 +7,8 @@ import type { ProposalInput, ProposalOutput } from '~/lib/types/proposal';
 export function fallbackProposal(input: ProposalInput): ProposalOutput {
   const clientName = input.clientName || 'Target Client';
   const sector = input.sector ? `in the ${input.sector} sector` : 'in your industry';
-  const roiInputs = input.roiInputs || {
-    people: 20,
-    hoursSavedPerPersonPerWeek: 3,
-    hourlyCost: 45,
-    recoveryConfidencePercent: 80,
-    investment: 12000
-  };
-
-  const pricing = buildPricingOptions(roiInputs.investment);
-  const roiEstimate = estimateRoi(roiInputs);
+  const pricing = buildPricingOptions(input.roiInputs?.investment);
+  const roiEstimate = estimateRoi(input.roiInputs);
 
   return {
     contractVersion: '1.0',
@@ -85,6 +77,11 @@ export function fallbackProposal(input: ProposalInput): ProposalOutput {
         outcome: 'Enterprise enablement'
       }
     ],
+    dependencies: [
+      'Named executive sponsor and operational subject-matter experts',
+      'Approved access to relevant systems and representative, minimised data',
+      'Consultant validation of scope, financial assumptions and success measures'
+    ],
     roiEstimate,
     risks: [
       {
@@ -148,32 +145,30 @@ export async function generateProposal(input: ProposalInput): Promise<ProposalOu
   if (!key) return fallbackProposal(input);
 
   try {
-    const client = new OpenAI({ apiKey: key });
+    const client = new OpenAI({ apiKey: key, maxRetries: 1, timeout: 25_000 });
 
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 25000);
-
-    const response = await client.chat.completions.create(
-      {
-        model: process.env.OPENAI_MODEL || 'gpt-4.1-mini',
-        temperature: 0.3,
-        response_format: { type: 'json_object' },
-        messages: [
-          { role: 'system', content: buildProposalSystemPrompt() },
-          { role: 'user', content: buildProposalUserPrompt(input) }
-        ]
-      },
-      { signal: controller.signal }
-    );
-
-    clearTimeout(timeoutId);
+    const timeoutId = setTimeout(() => controller.abort(), 25_000);
+    const response = await client.chat.completions
+      .create(
+        {
+          model: process.env.OPENAI_MODEL || 'gpt-4.1-mini',
+          temperature: 0.3,
+          response_format: { type: 'json_object' },
+          messages: [
+            { role: 'system', content: buildProposalSystemPrompt() },
+            { role: 'user', content: buildProposalUserPrompt(input) }
+          ]
+        },
+        { signal: controller.signal }
+      )
+      .finally(() => clearTimeout(timeoutId));
 
     const text = response.choices[0]?.message?.content;
     if (!text) return fallbackProposal(input);
 
     return proposalFromModelText(text, input);
   } catch {
-    console.warn('AI proposal generation unavailable; deterministic fallback used.');
     return fallbackProposal(input);
   }
 }

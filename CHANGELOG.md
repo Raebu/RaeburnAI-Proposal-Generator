@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented here.
 
+## 1.0.0-rc.2 — 2026-08-20 (Release Candidate)
+
+### Added
+
+- **Cloudflare Workers Runtime**: Added the official OpenNext Cloudflare adapter, Wrangler configuration, generated binding types, workerd preview, custom-domain declaration, and Workers observability.
+- **Continuous Compatibility**: CI now builds the OpenNext Worker, performs a Wrangler deployment dry run, and runs Playwright against the actual local Workers runtime.
+- **Workers Verification**: Added trusted Cloudflare client-identity, invalid-provider-key, 25-second timeout, export, clipboard, print, mobile, browser-storage, and response-header coverage.
+
+### Security
+
+- Cloudflare `CF-Connecting-IP` is authoritative on Workers; `X-Forwarded-For` is ignored unless secondary Docker trusted-proxy mode is explicitly enabled.
+- `OPENAI_API_KEY` remains a runtime-only Wrangler secret. Cloudflare Access and edge rate limiting are mandatory external production controls.
+
 ## 1.0.0-rc.1 — 2026-08-19 (Release Candidate)
 
 ### Added

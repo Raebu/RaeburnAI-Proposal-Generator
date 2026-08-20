@@ -74,11 +74,28 @@ jobs:
           APP_BASE_URL: https://ci.proposal.invalid
           TRUST_PROXY_HEADERS: 'true'
         run: npm run build
+      - name: OpenNext Cloudflare build and deployment dry run
+        run: |
+          npm run cf:build
+          npm run cf-typegen
+          git diff --exit-code -- cloudflare-env.d.ts
+          npx wrangler deploy --dry-run --outdir .wrangler-dry-run
       - run: npm audit --audit-level=high
       - name: Secret scan
         run: git grep -n -I -E '(sk-[A-Za-z0-9]{20,}|AKIA[0-9A-Z]{16}|BEGIN (RSA|OPENSSH|EC) PRIVATE KEY)' -- ':!package-lock.json' && exit 1 || true
       - run: npx playwright install --with-deps chromium
       - run: npm run test:e2e
+      - name: Playwright against workerd preview
+        run: |
+          npx opennextjs-cloudflare preview --port 8787 > wrangler-preview.log 2>&1 &
+          preview_pid=$!
+          trap 'kill "$preview_pid" 2>/dev/null || true' EXIT
+          for attempt in $(seq 1 30); do
+            curl --fail --silent http://127.0.0.1:8787/api/health >/dev/null && break
+            sleep 1
+          done
+          curl --fail --silent http://127.0.0.1:8787/api/health >/dev/null
+          PLAYWRIGHT_BASE_URL=http://127.0.0.1:8787 PLAYWRIGHT_SKIP_WEBSERVER=1 npm run test:e2e
       - run: git ls-files --error-unmatch package-lock.json
       - name: Upload test evidence
         if: always()
@@ -89,6 +106,7 @@ jobs:
             coverage/
             playwright-report/
             test-results/
+            wrangler-preview.log
           if-no-files-found: warn
 
   codeql:
