@@ -1,24 +1,36 @@
 import type { PricingOption, RoiEstimate } from '~/lib/types/proposal';
 
-export function buildPricingOptions(basePrice = 12000): PricingOption[] {
+export function buildPricingOptions(): PricingOption[] {
   return [
     {
-      name: 'Diagnostic Sprint',
-      price: Math.round(basePrice * 0.45),
-      description: 'Discovery, workflow audit, solution architecture and prioritised business case.',
-      bestFor: 'Clients who need clarity before committing to implementation.'
+      name: 'AI Workflow & Automation Audit',
+      price: 750,
+      priceLabel: '£750',
+      description: 'Workflow review, opportunity scorecard, 30-day roadmap and findings review.',
+      bestFor: 'Organisations that need an evidence-led starting point.'
     },
     {
-      name: 'Implementation Partner',
-      price: basePrice,
-      description: 'End-to-end proposal delivery, build support, enablement and launch governance.',
-      bestFor: 'Clients ready to move from strategy to measurable delivery.'
+      name: 'AI Transformation Sprint',
+      price: 2500,
+      priceLabel: 'From £2,500',
+      description:
+        'A contained sprint to validate and deliver one priority transformation workstream.',
+      bestFor: 'Clients ready to move from diagnosis into a focused pilot.'
     },
     {
-      name: 'Transformation Retainer',
-      price: Math.round(basePrice * 2.5),
-      description: 'Multi-workstream delivery, executive reporting, optimisation and continuous improvement.',
-      bestFor: 'Clients who need a longer-term operating partner.'
+      name: 'Implementation / Automation Project',
+      price: 5000,
+      priceLabel: '£5,000+',
+      description:
+        'Quotation-based implementation, integration, testing, enablement and governance.',
+      bestFor: 'Clients with validated scope and executive sponsorship.'
+    },
+    {
+      name: 'Continuous Optimisation & AI Operations',
+      price: 500,
+      priceLabel: '£500–£1,500 per month',
+      description: 'Ongoing monitoring, optimisation, governance and prioritisation after launch.',
+      bestFor: 'Teams that need continuous improvement and operational support.'
     }
   ];
 }
@@ -27,29 +39,72 @@ type RoiParams = {
   people?: number;
   hoursSavedPerPersonPerWeek?: number;
   hourlyCost?: number;
+  recoveryConfidencePercent?: number;
   investment?: number;
 };
 
 export function estimateRoi(params?: RoiParams): RoiEstimate {
-  const people = params?.people ?? 20;
-  const hours = params?.hoursSavedPerPersonPerWeek ?? 3;
-  const hourlyCost = params?.hourlyCost ?? 45;
-  const investment = params?.investment ?? 12000;
-  const monthlySavingsLow = Math.round(people * hours * hourlyCost * 4 * 0.6);
-  const monthlySavingsHigh = Math.round(people * hours * hourlyCost * 4 * 1.2);
-  const conservativePayback = Number((investment / monthlySavingsLow).toFixed(1));
-
+  const safe = (value: number | undefined, max: number) =>
+    Number.isFinite(value) ? Math.min(max, Math.max(0, value as number)) : 0;
+  const people = Math.floor(safe(params?.people, 10000));
+  const hours = safe(params?.hoursSavedPerPersonPerWeek, 80);
+  const hourlyCost = safe(params?.hourlyCost, 5000);
+  const confidencePercent = safe(params?.recoveryConfidencePercent, 100);
+  const confidence = confidencePercent / 100;
+  const investment = safe(params?.investment, 10000000);
+  const rawMonthlySavings = people * hours * hourlyCost * 4.33;
+  const monthlySavingsLow = Math.round(rawMonthlySavings * 0.6 * confidence);
+  const monthlySavingsHigh = Math.round(rawMonthlySavings * confidence);
+  const annualSavingsLow = monthlySavingsLow * 12;
+  const annualSavingsHigh = monthlySavingsHigh * 12;
+  const calculableInvestment = investment > 0;
+  const calculableSavings = monthlySavingsLow > 0 && monthlySavingsHigh > 0;
+  const firstYearRoiPercentLow = calculableInvestment
+    ? Math.round(((annualSavingsLow - investment) / investment) * 100)
+    : 0;
+  const firstYearRoiPercentHigh = calculableInvestment
+    ? Math.round(((annualSavingsHigh - investment) / investment) * 100)
+    : 0;
+  const paybackMonthsHigh =
+    calculableInvestment && calculableSavings
+      ? Number((investment / monthlySavingsLow).toFixed(1))
+      : 0;
+  const paybackMonthsLow =
+    calculableInvestment && calculableSavings
+      ? Number((investment / monthlySavingsHigh).toFixed(1))
+      : 0;
+  const assumptions = [
+    people
+      ? `${people} process participants / affected team members`
+      : 'Affected team size not yet verified',
+    hours
+      ? `${hours} hours potentially released per person per week`
+      : 'Hours released per person not yet verified',
+    hourlyCost
+      ? `Blended hourly cost of £${hourlyCost}/hr`
+      : 'Blended hourly cost not yet verified',
+    confidencePercent
+      ? `Capacity recovery confidence factor of ${confidencePercent}%`
+      : 'Capacity recovery confidence not yet verified',
+    investment
+      ? `Implementation investment benchmark of £${investment.toLocaleString()}`
+      : 'Implementation investment not yet confirmed',
+    'Capacity value is a planning estimate, not guaranteed cash savings; recurring technology costs, VAT and implementation disruption are excluded and must be confirmed during discovery.'
+  ];
+  const narrative =
+    calculableInvestment && calculableSavings
+      ? `Estimated gross monthly capacity value ranges from £${monthlySavingsLow.toLocaleString()} to £${monthlySavingsHigh.toLocaleString()} (£${annualSavingsLow.toLocaleString()} to £${annualSavingsHigh.toLocaleString()} annualised), with first-year ROI of ${firstYearRoiPercentLow}% to ${firstYearRoiPercentHigh}% and investment payback estimated within ${paybackMonthsLow} to ${paybackMonthsHigh} months.`
+      : 'ROI and payback are not yet calculable because one or more required assumptions are zero, missing or unverified. No savings claim should be made until a consultant validates affected people, recoverable hours, hourly cost, confidence and investment.';
   return {
-    assumptions: [
-      `${people} affected users or process participants`,
-      `${hours} hours saved per person per week before optimisation uplift`,
-      `Blended hourly cost of £${hourlyCost}`,
-      `Initial investment benchmark of £${investment}`
-    ],
+    assumptions,
     monthlySavingsLow,
     monthlySavingsHigh,
-    paybackMonthsLow: Number((investment / monthlySavingsHigh).toFixed(1)),
-    paybackMonthsHigh: conservativePayback,
-    narrative: `Estimated monthly value ranges from £${monthlySavingsLow.toLocaleString()} to £${monthlySavingsHigh.toLocaleString()}, with payback typically inside ${conservativePayback} months under the conservative scenario.`
+    annualSavingsLow,
+    annualSavingsHigh,
+    firstYearRoiPercentLow,
+    firstYearRoiPercentHigh,
+    paybackMonthsLow,
+    paybackMonthsHigh,
+    narrative
   };
 }

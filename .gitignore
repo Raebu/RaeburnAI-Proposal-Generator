@@ -1,0 +1,39 @@
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+/test-results
+/playwright-report
+
+# next.js build output
+/.next/
+/.open-next/
+/.wrangler/
+/.wrangler-dry-run/
+/*.cpuprofile
+/out/
+
+# production
+/build
+
+# debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# local environment and secret files (retain only the documented template)
+.env*
+!.env.example
+
+# typescript build info
+tsconfig.tsbuildinfo
+next-env.d.ts
+
+# OS & Editor files
+.DS_Store
+*.pem
+.idea
+.vscode

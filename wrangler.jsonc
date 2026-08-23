@@ -1,0 +1,35 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "raeburnai-proposal-generator",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-08-20",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "workers_dev": false,
+  "routes": [
+    {
+      "pattern": "proposal.theraeburngroup.com",
+      "custom_domain": true
+    }
+  ],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "services": [
+    {
+      "binding": "WORKER_SELF_REFERENCE",
+      "service": "raeburnai-proposal-generator"
+    }
+  ],
+  "vars": {
+    "OPENAI_MODEL": "gpt-4.1-mini",
+    "RATE_LIMIT_REQUESTS_PER_MINUTE": "20",
+    "TRUST_PROXY_HEADERS": "false",
+    "TRUST_CLOUDFLARE_ACCESS": "true",
+    "HUMAN_APPROVAL_REQUIRED": "true"
+  },
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1
+  }
+}
