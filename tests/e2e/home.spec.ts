@@ -1,7 +1,30 @@
-import { expect, test } from '@playwright/test';
+import AxeBuilder from '@axe-core/playwright';
+import { expect, test, type Page } from '@playwright/test';
+
+const wcagTags = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'];
+
+async function expectAccessible(page: Page) {
+  const { violations } = await new AxeBuilder({ page }).withTags(wcagTags).analyze();
+  expect(
+    violations.map(({ id, impact, nodes }) => ({
+      id,
+      impact,
+      targets: nodes.map((node) => node.target)
+    }))
+  ).toEqual([]);
+}
 
 test.describe('RaeburnAI Proposal Generator E2E Flow', () => {
   test('home page loads and allows proposal generation flow', async ({ page }) => {
+    const runtimeErrors: string[] = [];
+    page.on('pageerror', (error) => runtimeErrors.push(`pageerror: ${error.message}`));
+    page.on('console', (message) => {
+      if (message.type() === 'error') runtimeErrors.push(`console: ${message.text()}`);
+    });
+    page.on('response', (response) => {
+      if (response.status() >= 500)
+        runtimeErrors.push(`http ${response.status()}: ${response.url()}`);
+    });
     await page.goto('/');
 
     await expect(page.locator('h1')).toContainText('Raeburn Consulting Group');
@@ -27,6 +50,8 @@ test.describe('RaeburnAI Proposal Generator E2E Flow', () => {
     await expect(page.locator('text=1. Executive Summary')).toBeVisible();
     await expect(page.locator('text=8. Commercial Pricing Tiers')).toBeVisible();
     await expect(page.locator('text=10. Deterministic ROI & Financial Model')).toBeVisible();
+    await expectAccessible(page);
+    expect(runtimeErrors).toEqual([]);
   });
 
   test('exports safely without browser persistence', async ({ page, context }) => {
@@ -51,6 +76,14 @@ test.describe('RaeburnAI Proposal Generator E2E Flow', () => {
     await page.getByRole('button', { name: /JSON/ }).click();
     const download = await downloadPromise;
     expect(download.suggestedFilename()).toMatch(/^proposal-1\.0-\d+\.json$/);
+
+    const docxDownloadPromise = page.waitForEvent('download');
+    await page.getByRole('button', { name: /DOCX/ }).click();
+    const docxDownload = await docxDownloadPromise;
+    expect(docxDownload.suggestedFilename()).toBe(
+      'raeburn-ai-transformation-proposal-northstar-advisory-group.docx'
+    );
+    expect(await docxDownload.failure()).toBeNull();
 
     await page.getByRole('button', { name: /Print \/ PDF/ }).click();
 

@@ -4,6 +4,7 @@ import { generateProposal } from '~/lib/ai/generateProposal';
 import { proposalInputSchema } from '~/lib/proposals/schema';
 import { proposalApiAuthorised } from '~/lib/security/auth';
 import { auditLog } from '~/lib/security/audit';
+import { readBoundedText } from '~/lib/security/body';
 import { getClientKey } from '~/lib/security/clientIdentity';
 import { toSafeError } from '~/lib/security/errors';
 import { checkRateLimit } from '~/lib/security/rateLimit';
@@ -57,13 +58,11 @@ export async function POST(request: Request) {
   }
 
   try {
-    const contentLength = Number(request.headers.get('content-length') || 0);
-    if (contentLength > 1024 * 1024)
+    const body = await readBoundedText(request, 1024 * 1024);
+    if (!body.ok && body.reason === 'too_large')
       return json({ error: 'Payload exceeds maximum limit of 1MB' }, 413, correlationId);
-    const body = await request.text();
-    if (body.length > 1024 * 1024)
-      return json({ error: 'Payload exceeds maximum limit of 1MB' }, 413, correlationId);
-    const input = proposalInputSchema.parse(JSON.parse(body));
+    if (!body.ok) return json({ error: 'Invalid request body' }, 400, correlationId);
+    const input = proposalInputSchema.parse(JSON.parse(body.value));
     const proposal = await generateProposal(input);
     auditLog({
       action: 'proposal.generate',

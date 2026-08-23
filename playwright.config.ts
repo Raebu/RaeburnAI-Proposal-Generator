@@ -15,11 +15,15 @@ export default defineConfig({
   webServer: process.env.PLAYWRIGHT_SKIP_WEBSERVER
     ? undefined
     : {
-        command: 'npm run start',
+        command: 'npm run start:standalone',
         url: 'http://127.0.0.1:3000',
         reuseExistingServer: !process.env.CI,
         timeout: 120_000,
-        env: { TRUST_CLOUDFLARE_ACCESS: 'true' }
+        env: {
+          HOSTNAME: '127.0.0.1',
+          PORT: '3000',
+          TRUST_CLOUDFLARE_ACCESS: 'true'
+        }
       },
   projects: [
     {

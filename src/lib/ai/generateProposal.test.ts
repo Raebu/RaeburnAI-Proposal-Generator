@@ -44,7 +44,7 @@ describe('generateProposal & fallbackProposal', () => {
     expect(proposal.roadmap.length).toBe(3);
     expect(proposal.pricing.length).toBe(4);
     expect(proposal.pricing[0].price).toBe(750);
-    expect(proposal.pricing[2].price).toBe(10000);
+    expect(proposal.pricing[2]).toMatchObject({ price: 5000, priceLabel: '£5,000+' });
     expect(proposal.roiEstimate.monthlySavingsLow).toBeGreaterThan(0);
     expect(proposal.keyOperationalChallenges.length).toBeGreaterThan(0);
     expect(proposal.prioritisedOpportunities.length).toBeGreaterThan(0);
@@ -55,11 +55,11 @@ describe('generateProposal & fallbackProposal', () => {
     expect(proposal.dependencies.length).toBeGreaterThan(0);
   });
 
-  it('fallbackProposal populates default sector and pain points if omitted', () => {
+  it('fallbackProposal marks missing sector and pain-point evidence for validation', () => {
     const proposal = fallbackProposal({ clientName: 'Minimal Client' });
     expect(proposal.executiveSummary).toContain('Minimal Client');
     expect(proposal.keyOperationalChallenges).toContain(
-      'High manual operational effort in core workflows'
+      'Current workflow baselines require discovery validation'
     );
     expect(proposal.roiEstimate.monthlySavingsLow).toBe(0);
     expect(proposal.roiEstimate.narrative).toContain('not yet calculable');

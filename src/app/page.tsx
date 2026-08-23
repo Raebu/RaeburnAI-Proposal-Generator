@@ -40,7 +40,7 @@ const DEMO_PAYLOAD: ProposalInput = {
   identifiedOpportunities: [
     'Automated client context extraction & schema validation',
     'Deterministic ROI payback calculator integration',
-    'One-click executive deck and proposal export'
+    'Print-quality proposal and executive presentation outline export'
   ],
   riskFactors: [
     'Consultant adoption resistance to new workflow tools',
@@ -89,6 +89,7 @@ export default function HomePage() {
   const [error, setError] = useState('');
   const [copied, setCopied] = useState(false);
   const [demoMode, setDemoMode] = useState(false);
+  const [exportingDocx, setExportingDocx] = useState(false);
 
   function loadDemoData() {
     setFormData(DEMO_PAYLOAD);
@@ -159,7 +160,7 @@ TECHNICAL SOLUTION
 ${proposal.technicalSolution}
 
 PROPOSED COST & PRICING
-${proposal.pricing.map((p) => `- ${p.name}: £${p.price.toLocaleString()} (${p.description})`).join('\n')}
+${proposal.pricing.map((p) => `- ${p.name}: ${p.priceLabel} (${p.description})`).join('\n')}
 
 ROI ESTIMATE
 ${proposal.roiEstimate.narrative}
@@ -184,6 +185,31 @@ ${proposal.roiEstimate.narrative}
     a.download = `proposal-${proposal.contractVersion}-${Date.now()}.json`;
     a.click();
     URL.revokeObjectURL(url);
+  }
+
+  async function downloadDocx() {
+    if (!proposal || exportingDocx) return;
+    setExportingDocx(true);
+    setError('');
+    try {
+      const { proposalDocumentBlob } = await import('~/lib/proposals/docx');
+      const blob = await proposalDocumentBlob(proposal, formData.clientName, demoMode);
+      const url = URL.createObjectURL(blob);
+      const anchor = document.createElement('a');
+      const clientSlug = formData.clientName
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-|-$/g, '')
+        .slice(0, 80);
+      anchor.href = url;
+      anchor.download = `raeburn-ai-transformation-proposal-${clientSlug || 'client'}.docx`;
+      anchor.click();
+      URL.revokeObjectURL(url);
+    } catch {
+      setError('The DOCX export could not be created. Use Print / PDF or try again.');
+    } finally {
+      setExportingDocx(false);
+    }
   }
 
   return (
@@ -362,8 +388,11 @@ ${proposal.roiEstimate.narrative}
                 </h4>
                 <div className="grid grid-cols-2 gap-3 text-xs">
                   <div>
-                    <label className="block text-slate-300">Affected Staff Count</label>
+                    <label htmlFor="roi-people" className="block text-slate-300">
+                      Affected Staff Count
+                    </label>
                     <input
+                      id="roi-people"
                       type="number"
                       min={1}
                       value={formData.roiInputs?.people ?? 20}
@@ -372,8 +401,11 @@ ${proposal.roiEstimate.narrative}
                     />
                   </div>
                   <div>
-                    <label className="block text-slate-300">Hours Saved / Person / Wk</label>
+                    <label htmlFor="roi-hours-saved" className="block text-slate-300">
+                      Hours Saved / Person / Wk
+                    </label>
                     <input
+                      id="roi-hours-saved"
                       type="number"
                       min={0.5}
                       step={0.5}
@@ -385,8 +417,11 @@ ${proposal.roiEstimate.narrative}
                     />
                   </div>
                   <div>
-                    <label className="block text-slate-300">Hourly Rate (£/hr)</label>
+                    <label htmlFor="roi-hourly-cost" className="block text-slate-300">
+                      Hourly Rate (£/hr)
+                    </label>
                     <input
+                      id="roi-hourly-cost"
                       type="number"
                       min={10}
                       value={formData.roiInputs?.hourlyCost ?? 45}
@@ -395,8 +430,11 @@ ${proposal.roiEstimate.narrative}
                     />
                   </div>
                   <div>
-                    <label className="block text-slate-300">Investment Benchmark (£)</label>
+                    <label htmlFor="roi-investment" className="block text-slate-300">
+                      Investment Benchmark (£)
+                    </label>
                     <input
+                      id="roi-investment"
                       type="number"
                       min={1000}
                       value={formData.roiInputs?.investment ?? 12000}
@@ -471,6 +509,8 @@ ${proposal.roiEstimate.narrative}
                 demoMode={demoMode}
                 onCopy={copyToClipboard}
                 onDownload={downloadJson}
+                onDownloadDocx={downloadDocx}
+                exportingDocx={exportingDocx}
                 copied={copied}
               />
             )}
@@ -487,6 +527,8 @@ function ProposalView({
   demoMode,
   onCopy,
   onDownload,
+  onDownloadDocx,
+  exportingDocx,
   copied
 }: {
   proposal: ProposalOutput;
@@ -494,6 +536,8 @@ function ProposalView({
   demoMode: boolean;
   onCopy: () => void;
   onDownload: () => void;
+  onDownloadDocx: () => void;
+  exportingDocx: boolean;
   copied: boolean;
 }) {
   return (
@@ -540,8 +584,16 @@ function ProposalView({
           </button>
           <button
             type="button"
+            onClick={onDownloadDocx}
+            disabled={exportingDocx}
+            className="rounded-lg border border-slate-300 bg-slate-50 px-3 py-1.5 text-xs font-medium text-slate-700 transition hover:bg-slate-100 disabled:cursor-wait disabled:opacity-60"
+          >
+            {exportingDocx ? 'Preparing DOCX…' : '📄 DOCX'}
+          </button>
+          <button
+            type="button"
             onClick={() => window.print()}
-            className="rounded-lg bg-sky-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-sky-700 transition shadow"
+            className="rounded-lg bg-sky-700 px-3 py-1.5 text-xs font-medium text-white hover:bg-sky-800 transition shadow"
           >
             🖨️ Print / PDF
           </button>
@@ -670,7 +722,7 @@ function ProposalView({
             <span className="block text-[10px] uppercase font-bold text-slate-500">
               Monthly Capacity Value (Low)
             </span>
-            <span className="text-lg font-extrabold text-emerald-600">
+            <span className="text-lg font-extrabold text-emerald-700">
               £{proposal.roiEstimate.monthlySavingsLow.toLocaleString()}
             </span>
           </div>
@@ -678,7 +730,7 @@ function ProposalView({
             <span className="block text-[10px] uppercase font-bold text-slate-500">
               Monthly Capacity Value (High)
             </span>
-            <span className="text-lg font-extrabold text-emerald-600">
+            <span className="text-lg font-extrabold text-emerald-700">
               £{proposal.roiEstimate.monthlySavingsHigh.toLocaleString()}
             </span>
           </div>

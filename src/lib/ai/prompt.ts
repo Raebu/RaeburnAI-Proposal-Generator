@@ -123,22 +123,22 @@ Generate the full JSON proposal object matching this exact structure:
   "dependencies": ["Named executive sponsor", "Approved system access", "Validated success measures"],
   "roiEstimate": {
     "assumptions": ["Assumption 1", "Assumption 2"],
-    "monthlySavingsLow": 5000,
-    "monthlySavingsHigh": 10000,
-    "annualSavingsLow": 60000,
-    "annualSavingsHigh": 120000,
-    "firstYearRoiPercentLow": 400,
-    "firstYearRoiPercentHigh": 900,
-    "paybackMonthsLow": 1.2,
-    "paybackMonthsHigh": 2.4,
-    "narrative": "Detailed narrative explaining financial payback."
+    "monthlySavingsLow": 0,
+    "monthlySavingsHigh": 0,
+    "annualSavingsLow": 0,
+    "annualSavingsHigh": 0,
+    "firstYearRoiPercentLow": 0,
+    "firstYearRoiPercentHigh": 0,
+    "paybackMonthsLow": 0,
+    "paybackMonthsHigh": 0,
+    "narrative": "Financial fields are replaced by deterministic application code from validated inputs."
   },
   "risks": [
     { "risk": "Stakeholder availability", "likelihood": "Medium", "impact": "Medium", "mitigation": "Establish clear governance cadence." },
     { "risk": "Legacy data integration", "likelihood": "Medium", "impact": "High", "mitigation": "Perform automated data validation in Phase 1." }
   ],
   "governance": ["Weekly steering committee", "Strict data privacy boundaries", "Human-in-the-loop validation"],
-  "responsibleAiConsiderations": ["Zero model training on client data", "Audit logging of AI outputs", "Bias & hallucination mitigations"],
+  "responsibleAiConsiderations": ["Confirm provider retention and model-training controls", "Audit generation events without logging client payloads", "Use schema validation and mandatory human review"],
   "nextSteps": ["Review & approve scope", "Confirm project sponsor", "Schedule Phase 1 kickoff"],
   "executivePresentation": [
     "Slide 1: Executive Summary & Context",

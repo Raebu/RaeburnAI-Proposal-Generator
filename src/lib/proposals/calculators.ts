@@ -1,10 +1,6 @@
 import type { PricingOption, RoiEstimate } from '~/lib/types/proposal';
 
-export function buildPricingOptions(implementationBenchmark = 5000): PricingOption[] {
-  const implementation =
-    Number.isFinite(implementationBenchmark) && implementationBenchmark >= 5000
-      ? Math.round(implementationBenchmark)
-      : 5000;
+export function buildPricingOptions(): PricingOption[] {
   return [
     {
       name: 'AI Workflow & Automation Audit',
@@ -23,8 +19,8 @@ export function buildPricingOptions(implementationBenchmark = 5000): PricingOpti
     },
     {
       name: 'Implementation / Automation Project',
-      price: implementation,
-      priceLabel: `£${implementation.toLocaleString()}+`,
+      price: 5000,
+      priceLabel: '£5,000+',
       description:
         'Quotation-based implementation, integration, testing, enablement and governance.',
       bestFor: 'Clients with validated scope and executive sponsorship.'

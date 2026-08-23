@@ -2,8 +2,8 @@ import { describe, expect, it } from 'vitest';
 import { buildPricingOptions, estimateRoi } from './calculators';
 
 describe('proposal calculators', () => {
-  it('creates pricing options based on base investment', () => {
-    const options = buildPricingOptions(20000);
+  it('creates the authoritative public commercial pricing options', () => {
+    const options = buildPricingOptions();
     expect(options.length).toBe(4);
     expect(options[0]).toMatchObject({
       name: 'AI Workflow & Automation Audit',
@@ -11,13 +11,15 @@ describe('proposal calculators', () => {
       priceLabel: '£750'
     });
     expect(options[1]).toMatchObject({ price: 2500, priceLabel: 'From £2,500' });
-    expect(options[2]).toMatchObject({ price: 20000, priceLabel: '£20,000+' });
+    expect(options[2]).toMatchObject({ price: 5000, priceLabel: '£5,000+' });
     expect(options[3].priceLabel).toBe('£500–£1,500 per month');
   });
 
-  it('handles negative or invalid base price gracefully', () => {
-    const options = buildPricingOptions(-5000);
+  it('keeps implementation pricing explicitly scoped rather than fixed', () => {
+    const options = buildPricingOptions();
     expect(options[2].price).toBe(5000);
+    expect(options[2].priceLabel).toBe('£5,000+');
+    expect(options[2].description).toMatch(/quotation-based/i);
   });
 
   it('estimates commercial value with confidence factor and custom inputs', () => {

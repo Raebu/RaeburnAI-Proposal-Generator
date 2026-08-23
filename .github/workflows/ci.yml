@@ -12,25 +12,32 @@ permissions:
 
 jobs:
   quality:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Secret scan
+        run: |
+          if git grep -n -I -E '(sk-[A-Za-z0-9_-]{20,}|AKIA[0-9A-Z]{16}|BEGIN (RSA|OPENSSH|EC) PRIVATE KEY)' -- ':!package-lock.json'; then
+            echo "Potential committed secret detected"
+            exit 1
+          fi
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
         with:
-          node-version: 20
+          node-version: 22.18.0
           cache: npm
       - name: Install
         run: npm ci --no-audit --no-fund
+      - name: Formatting
+        run: npm run format:check
       - name: Lint
         run: npm run lint
       - name: Typecheck
         run: npm run typecheck
       - name: Unit and integration tests
         run: npm run test:coverage
-      - name: Formatting
-        run: npm run format:check
       - name: Build
         run: npm run build
       - name: Install Playwright Browsers
@@ -38,4 +45,6 @@ jobs:
       - name: E2E tests
         run: npm run test:e2e
       - name: Docker build
-        run: docker build -t raeburnai-proposal-generator .
+        run: docker build --pull --target runner -t raeburnai-proposal-generator:${{ github.sha }} .
+      - name: Dependency audit
+        run: npm audit --audit-level=high

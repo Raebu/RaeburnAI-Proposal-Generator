@@ -6,34 +6,40 @@ import type { ProposalInput, ProposalOutput } from '~/lib/types/proposal';
 
 export function fallbackProposal(input: ProposalInput): ProposalOutput {
   const clientName = input.clientName || 'Target Client';
-  const sector = input.sector ? `in the ${input.sector} sector` : 'in your industry';
-  const pricing = buildPricingOptions(input.roiInputs?.investment);
+  const sector = input.sector
+    ? `in the ${input.sector} sector`
+    : 'in the sector recorded at discovery';
+  const statedContext =
+    input.currentPain?.trim() || 'Detailed current-state evidence has not yet been provided.';
+  const desiredOutcome =
+    input.desiredOutcome?.trim() || 'Desired outcomes must be confirmed during discovery.';
+  const pricing = buildPricingOptions();
   const roiEstimate = estimateRoi(input.roiInputs);
 
   return {
     contractVersion: '1.0',
     status: 'DRAFT_REQUIRES_HUMAN_REVIEW',
     generationMode: 'deterministic-fallback',
-    executiveSummary: `${clientName} ${sector} has an immediate opportunity to turn discovery context and operating bottlenecks into a prioritised AI transformation programme with measurable commercial ROI.`,
-    businessContext: `${clientName} operates ${sector}. To maintain competitive advantage, the leadership team requires a strategic workflow modernization approach that addresses manual overhead while protecting operational stability.`,
-    currentStateAssessment: `Current operations for ${clientName} are constrained by manual workflows, fragmented tools, and non-standardised data handoffs. Key team members spend significant hours weekly on repetitive processes.`,
+    executiveSummary: `This draft translates the context supplied by ${clientName} ${sector} into an evidence-led assessment and phased set of options. Client facts, feasibility, scope and financial assumptions require consultant validation before delivery.`,
+    businessContext: `${clientName} operates ${sector}. Stated current context: ${statedContext} Stated desired outcome: ${desiredOutcome}`,
+    currentStateAssessment: `The current-state assessment is limited to information supplied in the assessment and discovery notes. Known context: ${statedContext} Any workflow volume, data-quality, integration or capacity finding not explicitly recorded remains unverified.`,
     keyOperationalChallenges: input.operationalPainPoints?.length
       ? input.operationalPainPoints
       : [
-          'High manual operational effort in core workflows',
-          'Fragmented software stack and data silos',
-          'Limited real-time visibility into capacity and throughput'
+          'Current workflow baselines require discovery validation',
+          'System ownership, data quality and integration constraints require confirmation',
+          'Success measures and operational acceptance criteria are not yet signed off'
         ],
     prioritisedOpportunities: input.identifiedOpportunities?.length
       ? input.identifiedOpportunities
       : [
-          'Automate high-volume repetitive document & workflow tasks',
-          'Implement AI-assisted decision support for team members',
-          'Establish continuous capacity recovery and analytics reporting'
+          'Assess high-volume repetitive work for safe automation potential',
+          'Evaluate bounded AI assistance with human decision ownership',
+          'Define baseline measures before forecasting capacity or financial impact'
         ],
-    proposal: `Raeburn Consulting Group proposes a 3-phase consulting engagement to audit current workflows, architect a custom AI solution, and manage implementation through to adoption.`,
+    proposal: `Raeburn Consulting proposes a gated approach: validate the current state, confirm a bounded priority and business case, then agree whether a sprint or separately scoped implementation is justified.`,
     technicalSolution:
-      'A secure enterprise AI consulting architecture combining context ingestion, structured schemas, model gateway controls, human-in-the-loop validation, and executive analytics.',
+      'A proposed solution pattern combining structured inputs, least-privilege integrations, provider controls, schema validation, human approval and measurable operational monitoring. The final architecture depends on validated systems and data constraints.',
     roadmap: [
       {
         phase: 'Phase 1: Diagnostic & Architecture',
@@ -44,19 +50,28 @@ export function fallbackProposal(input: ProposalInput): ProposalOutput {
           'Architecture design',
           'ROI model signoff'
         ],
-        successMetrics: ['100% scope alignment', 'Confirmed executive sponsorship']
+        successMetrics: [
+          'Scope and assumptions signed off',
+          'Named executive and operational ownership confirmed'
+        ]
       },
       {
         phase: 'Phase 2: Build & Pilot Delivery',
         objective: 'Configure core automation workstreams and launch controlled pilot.',
         deliverables: ['Configured AI pipeline', 'User enablement guide', 'Pilot launch'],
-        successMetrics: ['Pilot adoption > 80%', 'Measurable capacity recovery']
+        successMetrics: [
+          'Pilot acceptance criteria agreed before build',
+          'Observed outcome measured against the approved baseline'
+        ]
       },
       {
         phase: 'Phase 3: Scale & Governance',
         objective: 'Full operational rollout, training, and continuous governance.',
         deliverables: ['Enterprise rollout', 'Governance framework', 'Handover documentation'],
-        successMetrics: ['Target ROI achievement', 'Zero security policy exceptions']
+        successMetrics: [
+          'Scale decision supported by pilot evidence',
+          'Security and governance exceptions reviewed before release'
+        ]
       }
     ],
     pricing,
@@ -132,7 +147,7 @@ export function proposalFromModelText(text: string, input: ProposalInput): Propo
       contractVersion: '1.0',
       status: 'DRAFT_REQUIRES_HUMAN_REVIEW',
       generationMode: 'provider-generated',
-      pricing: buildPricingOptions(input.roiInputs?.investment),
+      pricing: buildPricingOptions(),
       roiEstimate: estimateRoi(input.roiInputs)
     };
   } catch {

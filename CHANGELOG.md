@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented here.
 
+## Unreleased
+
+- Kept the £5,000+ implementation option independent from client ROI-investment assumptions.
+- Removed invented fallback client facts and replaced them with explicit discovery-validation hypotheses.
+- Tightened Contract 1.0 output bounds, added a production-standalone test launcher, and repaired CI secret-scan enforcement.
+- Added desktop/mobile axe WCAG and browser runtime-error assertions, programmatic ROI field labels, and accessible output contrast.
+- Streamed and bounded proposal request bodies before allocation, including requests without a trustworthy `Content-Length` header.
+- Added a real Word-compatible DOCX export containing the complete proposal, deterministic ROI, governance, responsible-AI and human-review status sections; browser coverage verifies the downloaded file.
+- Bound the standalone container to `0.0.0.0` so its in-container health check and orchestrator probes reach the application reliably.
+
 ## 1.0.0-rc.2 — 2026-08-20 (Release Candidate)
 
 ### Added
