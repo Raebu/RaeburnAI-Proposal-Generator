@@ -20,20 +20,20 @@ jobs:
           ref: ${{ github.head_ref }}
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
       - run: npm install --package-lock-only --ignore-scripts
-      - run: npm audit --audit-level=high
       - name: Commit resolved lockfile when needed
         run: |
           git add package-lock.json
           if git diff --cached --quiet; then
             echo "package-lock.json is current"
-            exit 0
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -m "chore: resolve npm lockfile [lockbot]"
+            git push origin HEAD:${{ github.head_ref }}
           fi
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "chore: resolve npm lockfile [lockbot]"
-          git push origin HEAD:${{ github.head_ref }}
+      - run: npm audit --audit-level=high
 
   quality:
     runs-on: ubuntu-latest
@@ -43,9 +43,11 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
       - name: Install
         run: npm install
+      - name: Dependency audit
+        run: npm audit --audit-level=high
       - name: Lint
         run: npm run lint
       - name: Typecheck
