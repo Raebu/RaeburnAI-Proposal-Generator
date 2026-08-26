@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { generateProposal } from '~/lib/ai/generateProposal';
+import { buildSourceManifest } from '~/lib/ai/provenance';
 import { proposalInputSchema } from '~/lib/proposals/schema';
 import { auditLog } from '~/lib/security/audit';
 import { toSafeError } from '~/lib/security/errors';
@@ -24,13 +25,24 @@ export async function POST(request: Request) {
   try {
     const json = await request.json();
     const input = proposalInputSchema.parse(json);
+    const sourceManifest = buildSourceManifest(input);
     const proposal = await generateProposal(input);
+
+    const presentSources = sourceManifest.filter((item) => item.present);
+    const sourceDigest = presentSources
+      .map((item) => `${item.source}:${item.sha256}`)
+      .join('|')
+      .slice(0, 1500);
 
     auditLog({
       action: 'proposal.generate',
       actor,
       outcome: 'succeeded',
-      metadata: { clientName: input.clientName }
+      metadata: {
+        clientName: input.clientName,
+        sourceCount: presentSources.length,
+        sourceDigest
+      }
     });
 
     return NextResponse.json(
