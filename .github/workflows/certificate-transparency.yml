@@ -1,0 +1,73 @@
+name: Certificate Transparency Monitor
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "23 */6 * * *"
+  push:
+    paths:
+      - ".github/workflows/certificate-transparency.yml"
+      - "scripts/ct_monitor.py"
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: certificate-transparency-monitor
+  cancel-in-progress: false
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 1
+
+      - name: Query public certificate-transparency logs
+        id: ct
+        run: python3 scripts/ct_monitor.py
+
+      - name: Commit updated CT snapshot
+        run: |
+          git config user.name "Raeburn Security Automation"
+          git config user.email "security@theraeburngroup.com"
+          git add security/certificate-transparency/ct-snapshot.json security/certificate-transparency/new-certificates.json
+          if git diff --cached --quiet; then
+            echo "No CT snapshot changes."
+          else
+            git commit -m "security: update certificate transparency snapshot"
+            git push
+          fi
+
+      - name: Open review issue for newly observed certificates
+        if: steps.ct.outputs.bootstrap != 'true' && steps.ct.outputs.new_count != '0'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          NEW_COUNT: ${{ steps.ct.outputs.new_count }}
+        run: |
+          python3 - <<'PY' > /tmp/ct-issue.md
+          import json
+          from pathlib import Path
+
+          payload = json.loads(Path("security/certificate-transparency/new-certificates.json").read_text())
+          records = payload.get("certificates", [])
+          print("New certificates have appeared in public Certificate Transparency logs for monitored Raeburn domains.\n")
+          print("Review whether each issuance and hostname is expected. CT data is public; this alert is not evidence of compromise by itself.\n")
+          print("| Domain | CT ID | Issuer | Names | Not before |")
+          print("|---|---:|---|---|---|")
+          for item in records[:50]:
+              issuer = item.get("issuer_name", "").replace("|", "\\|")
+              names = ", ".join(item.get("names", [])).replace("|", "\\|")
+              print(f"| {item.get('domain','')} | {item.get('id','')} | {issuer} | {names} | {item.get('not_before','')} |")
+          if len(records) > 50:
+              print(f"\nAdditional records omitted from the issue body: {len(records) - 50}. See the committed CT evidence file.")
+          print("\nReview for unexpected CAs, unexpected hostnames/wildcards, shadow deployments, or certificates that do not correspond to approved infrastructure.")
+          PY
+          gh issue create \
+            --title "Security review: ${NEW_COUNT} newly observed CT certificate(s)" \
+            --body-file /tmp/ct-issue.md
