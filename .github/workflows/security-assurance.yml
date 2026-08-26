@@ -1,0 +1,45 @@
+name: Security Assurance
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '17 4 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  assurance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build
+      - name: Dependency vulnerability gate
+        run: npm audit --omit=dev --audit-level=high
+      - name: Baseline drift gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          required=(
+            SECURITY.md
+            docs/security/CSA_AI_FIRST_50_CONTROL_STANDARD.md
+            docs/security/AI_APPLICATION_SECURITY_STANDARD.md
+            docs/security/BCP_DR_PLAN.md
+            docs/security/CHANGE_CONFIGURATION_MANAGEMENT.md
+          )
+          for f in "${required[@]}"; do test -s "$f" || { echo "Missing baseline: $f"; exit 1; }; done
+          if git grep -nE '(sk-[A-Za-z0-9]{20,}|BEGIN (RSA|OPENSSH|EC) PRIVATE KEY)' -- ':!package-lock.json'; then
+            echo 'Potential committed secret material detected'; exit 1
+          fi
