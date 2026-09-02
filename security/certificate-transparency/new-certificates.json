@@ -1,5 +1,132 @@
 {
-  "certificates": [],
+  "certificates": [
+    {
+      "common_name": "",
+      "domain": "theraeburngroup.com",
+      "entry_timestamp": "749c2a10bb4f67b950c2e1f3e90c00cbb5c99534d81e7f95ed4d8465b9b0b3f7",
+      "id": "16932246502",
+      "issuer_name": "C=US, O=Let's Encrypt, CN=YR1",
+      "names": [
+        "mortgage.theraeburngroup.com"
+      ],
+      "not_after": "2026-11-30T22:08:51Z",
+      "not_before": "2026-09-01T22:08:52Z",
+      "serial_number": "7d8ebbe2dd415a5d93a2be78266dc4491d2859a9695464f99952e2d1fc05b109",
+      "source": "certspotter"
+    },
+    {
+      "common_name": "",
+      "domain": "theraeburngroup.com",
+      "entry_timestamp": "ea980dc2bc1b89c0d94a74071489ab9bc15a9de7ac42b33a78cd167275592adf",
+      "id": "16932623629",
+      "issuer_name": "C=US, O=Let's Encrypt, CN=YR2",
+      "names": [
+        "ifa.theraeburngroup.com"
+      ],
+      "not_after": "2026-11-30T22:40:47Z",
+      "not_before": "2026-09-01T22:40:48Z",
+      "serial_number": "f94e372f9ebcdbe610309e16dac753b2762159b4da64eaacf63af6afabd4a229",
+      "source": "certspotter"
+    },
+    {
+      "common_name": "",
+      "domain": "theraeburngroup.com",
+      "entry_timestamp": "92ba566c8e584900fb5e39b16a7e6f330b7cc31b1cac37d812393cbc1191b5d8",
+      "id": "16932777914",
+      "issuer_name": "C=US, O=Let's Encrypt, CN=YR1",
+      "names": [
+        "landscaping.theraeburngroup.com"
+      ],
+      "not_after": "2026-11-30T22:54:59Z",
+      "not_before": "2026-09-01T22:55:00Z",
+      "serial_number": "feffb497ee19e14dd58abd4d055fb81f5be5a30e876d2eed44eab1de705e515a",
+      "source": "certspotter"
+    },
+    {
+      "common_name": "",
+      "domain": "theraeburngroup.com",
+      "entry_timestamp": "3f7a22ff1fb6d500e09bd0afb34399ad48c593c5f63b5baf4b819bb0407b45f9",
+      "id": "16934414461",
+      "issuer_name": "C=US, O=Let's Encrypt, CN=YR2",
+      "names": [
+        "payroll.theraeburngroup.com"
+      ],
+      "not_after": "2026-12-01T00:58:17Z",
+      "not_before": "2026-09-02T00:58:18Z",
+      "serial_number": "428785924080de409cf4f5078e9fc1b545a0c662f726ff8da03e129339e44641",
+      "source": "certspotter"
+    },
+    {
+      "common_name": "",
+      "domain": "theraeburngroup.com",
+      "entry_timestamp": "224be7c40df454096829cb85e814566acb932ceda67b282d4b257349c0fa757b",
+      "id": "16934477261",
+      "issuer_name": "C=US, O=Let's Encrypt, CN=YR1",
+      "names": [
+        "hvac.theraeburngroup.com"
+      ],
+      "not_after": "2026-12-01T01:04:10Z",
+      "not_before": "2026-09-02T01:04:11Z",
+      "serial_number": "1d0481722cbd2af58622b66b471b8ddd53b4d5fed225283af76accc330c56a77",
+      "source": "certspotter"
+    },
+    {
+      "common_name": "",
+      "domain": "theraeburngroup.com",
+      "entry_timestamp": "ec03233b8d90dbc9f79a77b2426c9a75f2234ba5aae65aa3ce81e199582a5d98",
+      "id": "16935475212",
+      "issuer_name": "C=US, O=Let's Encrypt, CN=YR2",
+      "names": [
+        "estate.theraeburngroup.com"
+      ],
+      "not_after": "2026-12-01T02:18:43Z",
+      "not_before": "2026-09-02T02:18:44Z",
+      "serial_number": "c9ce53c8ade42be85445fe19e00140634907d91a9916f303ba80690ffeca9402",
+      "source": "certspotter"
+    },
+    {
+      "common_name": "",
+      "domain": "theraeburngroup.com",
+      "entry_timestamp": "0e68e2e5c58559bd218d6ccbf0a4a89047e1f4d63c401124a7cba09026af8e51",
+      "id": "16935868698",
+      "issuer_name": "C=US, O=Let's Encrypt, CN=YR2",
+      "names": [
+        "property.theraeburngroup.com"
+      ],
+      "not_after": "2026-12-01T02:49:37Z",
+      "not_before": "2026-09-02T02:49:38Z",
+      "serial_number": "ea1ffdd4bc413cd0d8b604ae170d9586768ceba2274a5c5f5b2980815714763a",
+      "source": "certspotter"
+    },
+    {
+      "common_name": "",
+      "domain": "theraeburngroup.com",
+      "entry_timestamp": "f56cf2a94f49bee83650c1c00ce60947ae90a14520906c4f8d11598dff304908",
+      "id": "16936407311",
+      "issuer_name": "C=US, O=Let's Encrypt, CN=YR2",
+      "names": [
+        "wholesalers.theraeburngroup.com"
+      ],
+      "not_after": "2026-12-01T03:29:10Z",
+      "not_before": "2026-09-02T03:29:11Z",
+      "serial_number": "e07315b6a1c52dd7b0ee85f1aca2ccd889554d7b36d6fa2025d3c26fb58a9692",
+      "source": "certspotter"
+    },
+    {
+      "common_name": "",
+      "domain": "theraeburngroup.com",
+      "entry_timestamp": "1b1a92c67f4b7e97732bcf8d51b750adb2f47cb8049e65ff607331c8ec764a1d",
+      "id": "16936441218",
+      "issuer_name": "C=US, O=Let's Encrypt, CN=YR2",
+      "names": [
+        "architects.theraeburngroup.com"
+      ],
+      "not_after": "2026-12-01T03:31:33Z",
+      "not_before": "2026-09-02T03:31:34Z",
+      "serial_number": "d4a55183a9776939dc456b2543edbeaa7f4d31ce5305453dfc060a7a10161378",
+      "source": "certspotter"
+    }
+  ],
   "domains": [
     "theraeburngroup.com",
     "caringcrewco.com"
