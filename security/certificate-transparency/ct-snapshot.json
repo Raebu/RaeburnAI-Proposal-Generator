@@ -1645,6 +1645,62 @@
       "not_before": "2026-09-03T02:04:15Z",
       "serial_number": "c54385c04aba4b70d6168a1334ff24c1bb5b95a358f05e17e0ad1329e48152e3",
       "source": "certspotter"
+    },
+    {
+      "common_name": "",
+      "domain": "theraeburngroup.com",
+      "entry_timestamp": "a4d94765bafc3637298e4a06af9342d1bb280fd86429392acd53dd10970ecae1",
+      "id": "16960526184",
+      "issuer_name": "C=US, O=Let's Encrypt, CN=YR1",
+      "names": [
+        "vets.theraeburngroup.com"
+      ],
+      "not_after": "2026-12-02T07:48:02Z",
+      "not_before": "2026-09-03T07:48:03Z",
+      "serial_number": "139006622149f3a6367b248f6242259635afe5e8516e99a87897a20b58bf3c29",
+      "source": "certspotter"
+    },
+    {
+      "common_name": "",
+      "domain": "theraeburngroup.com",
+      "entry_timestamp": "0ebbaa3f93c14cf6229ab187b09187efe5a40a05660fc1faebd409f9c4aad19d",
+      "id": "16960985883",
+      "issuer_name": "C=US, O=Let's Encrypt, CN=YR2",
+      "names": [
+        "schools.theraeburngroup.com"
+      ],
+      "not_after": "2026-12-02T08:21:06Z",
+      "not_before": "2026-09-03T08:21:07Z",
+      "serial_number": "f84285f7c4b5f499821b7b1c05a65336dfab011957f5a5e79dd852f4595d35ca",
+      "source": "certspotter"
+    },
+    {
+      "common_name": "",
+      "domain": "theraeburngroup.com",
+      "entry_timestamp": "dc0360c41529a136e286b1ea26cc956e3dafd959b7541fdbfff4d0234ce4e38b",
+      "id": "16961834686",
+      "issuer_name": "C=US, O=Let's Encrypt, CN=YR2",
+      "names": [
+        "creative.theraeburngroup.com"
+      ],
+      "not_after": "2026-12-02T09:21:15Z",
+      "not_before": "2026-09-03T09:21:16Z",
+      "serial_number": "6be51a34c8599452f445499c4d941ddc98bef5a99c08c5703e02b2456ab2dded",
+      "source": "certspotter"
+    },
+    {
+      "common_name": "",
+      "domain": "theraeburngroup.com",
+      "entry_timestamp": "7f2aba46c9c6bc40dd2c6b1c90ddd4c8f667aa6b786100bd773f6cc891770d7d",
+      "id": "16962134119",
+      "issuer_name": "C=US, O=Let's Encrypt, CN=YR2",
+      "names": [
+        "manufacturing.theraeburngroup.com"
+      ],
+      "not_after": "2026-12-02T09:44:30Z",
+      "not_before": "2026-09-03T09:44:31Z",
+      "serial_number": "91a87bc6e15ac067884c8df062d1fc1d5e71362991f2da7ee2cfa4d7b6888493",
+      "source": "certspotter"
     }
   ],
   "domains": [
