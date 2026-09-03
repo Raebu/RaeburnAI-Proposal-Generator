@@ -28,8 +28,8 @@ jobs:
       - run: npm run typecheck
       - run: npm test
       - run: npm run build
-      - name: Dependency vulnerability gate
-        run: npm audit --omit=dev --audit-level=high
+      - name: Full dependency vulnerability gate
+        run: npm audit --audit-level=high
       - name: Baseline drift gate
         shell: bash
         run: |
