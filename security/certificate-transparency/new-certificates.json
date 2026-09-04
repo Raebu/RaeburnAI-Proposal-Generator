@@ -1,20 +1,5 @@
 {
-  "certificates": [
-    {
-      "common_name": "",
-      "domain": "theraeburngroup.com",
-      "entry_timestamp": "45da31cc72a411c18ece3fe3a5f0fceb0b1ece79627536413971a6ac8ac53711",
-      "id": "16983764859",
-      "issuer_name": "C=US, O=Let's Encrypt, CN=YR1",
-      "names": [
-        "healthcare.theraeburngroup.com"
-      ],
-      "not_after": "2026-12-03T12:33:32Z",
-      "not_before": "2026-09-04T12:33:33Z",
-      "serial_number": "5ec3ea46ccd01cc56e1ecd68dfef2c27ef73ba833ab88da0b3b3720cb42dd49e",
-      "source": "certspotter"
-    }
-  ],
+  "certificates": [],
   "domains": [
     "theraeburngroup.com",
     "caringcrewco.com"
