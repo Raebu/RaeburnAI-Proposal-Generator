@@ -1,5 +1,21 @@
 {
-  "certificates": [],
+  "certificates": [
+    {
+      "common_name": "",
+      "domain": "theraeburngroup.com",
+      "entry_timestamp": "fd8177faa4e82244abb6cf3c3eb57135ac99b50961809001c8d2402195bad9eb",
+      "id": "17210650335",
+      "issuer_name": "C=US, O=Let's Encrypt, CN=YE2",
+      "names": [
+        "*.theraeburngroup.com",
+        "theraeburngroup.com"
+      ],
+      "not_after": "2026-12-15T10:12:54Z",
+      "not_before": "2026-09-16T10:12:55Z",
+      "serial_number": "ce97973e78602c689f9a4fa6afbb48eeb454b2b5b5b0ab20b04b986a1877137e",
+      "source": "certspotter"
+    }
+  ],
   "domains": [
     "theraeburngroup.com",
     "caringcrewco.com"
