@@ -63,6 +63,7 @@ for (const legacy of ['.github/workflows/provenance.yml', '.github/workflows/rel
 const releasePath='.github/workflows/release-trust.yml';
 const releaseSource=read(releasePath);
 requireMarker(releaseSource, releasePath, 'published release trigger', 'types: [published]');
+requireMarker(releaseSource, releasePath, 'reusable release exercise entrypoint', 'workflow_call:');
 requireMarker(releaseSource, releasePath, 'deterministic archive', 'git archive --format=tar');
 requireMarker(releaseSource, releasePath, 'normalized gzip metadata', 'gzip -n');
 requireMarker(releaseSource, releasePath, 'SPDX SBOM', 'spdx-json');
