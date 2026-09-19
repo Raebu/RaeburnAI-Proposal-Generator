@@ -1,0 +1,32 @@
+name: RAI-112 release trust exercise
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/rai112-release-exercise.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  create-prerelease:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create one-time non-production prerelease
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: v0.1.0-rai112.1
+        run: |
+          set -euo pipefail
+          if gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "Prerelease $RELEASE_TAG already exists; exercise is intentionally one-shot."
+            exit 0
+          fi
+          gh release create "$RELEASE_TAG" \
+            --target "$GITHUB_SHA" \
+            --prerelease \
+            --title "RAI-112 trust-package exercise $RELEASE_TAG" \
+            --notes "Non-production prerelease created solely to execute and verify the consolidated RAI-112 release trust package." \
+            --repo "$GITHUB_REPOSITORY"

@@ -15,7 +15,8 @@
     "test:e2e": "playwright test",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "docker:build": "docker build -t raeburnai-proposal-generator ."
+    "docker:build": "docker build -t raeburnai-proposal-generator .",
+    "validate:supply-chain": "node scripts/validate-supply-chain.mjs"
   },
   "dependencies": {
     "@next/env": "16.3.4",

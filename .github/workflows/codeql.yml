@@ -20,7 +20,6 @@ permissions:
 
 jobs:
   analyse:
-    if: github.event_name != 'pull_request' || contains(github.event.pull_request.labels.*.name, 'run-full-ci')
     name: Analyse
     runs-on: ubuntu-latest
     timeout-minutes: 20
@@ -30,10 +29,10 @@ jobs:
         with:
           persist-credentials: false
       - name: Initialise CodeQL
-        uses: github/codeql-action/init@7211b7c8077ea37d8641b6271f6a365a22a5fbfa # v4.36.0
+        uses: github/codeql-action/init@e4fba868fa4b1b91e1fdab776edc8cfbe6e9fb81 # v4.36.0
         with:
           languages: javascript-typescript
       - name: Autobuild
-        uses: github/codeql-action/autobuild@7211b7c8077ea37d8641b6271f6a365a22a5fbfa # v4.36.0
+        uses: github/codeql-action/autobuild@e4fba868fa4b1b91e1fdab776edc8cfbe6e9fb81 # v4.36.0
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@7211b7c8077ea37d8641b6271f6a365a22a5fbfa # v4.36.0
+        uses: github/codeql-action/analyze@e4fba868fa4b1b91e1fdab776edc8cfbe6e9fb81 # v4.36.0
