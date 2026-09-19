@@ -97,4 +97,4 @@ if (failures.length) {
   process.exit(1);
 }
 
-console.log('Software supply-chain policy validated: ' + workflowFiles.length + ' workflows use immutable action refs; dependency/image gates, minimized runtime and one canonical release trust owner are present.');
+console.warn('Software supply-chain policy validated: ' + workflowFiles.length + ' workflows use immutable action refs; dependency/image gates, minimized runtime and one canonical release trust owner are present.');
