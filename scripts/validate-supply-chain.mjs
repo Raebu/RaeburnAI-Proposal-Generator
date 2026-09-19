@@ -74,6 +74,8 @@ requireMarker(releaseSource, releasePath, 'Sigstore verification', 'cosign verif
 requireMarker(releaseSource, releasePath, 'GitHub attestation', 'actions/attest@');
 requireMarker(releaseSource, releasePath, 'GitHub attestation verification', 'gh attestation verify');
 requireMarker(releaseSource, releasePath, 'single release upload', 'gh release upload');
+const releaseUploadCount = (releaseSource.match(/gh release upload/g) || []).length;
+if (releaseUploadCount !== 1) failures.push(releasePath + ' must contain exactly one gh release upload command; found ' + releaseUploadCount);
 
 const owners=[];
 for (const [relativePath, source] of workflowSources.entries()) {
