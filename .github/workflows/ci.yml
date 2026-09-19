@@ -16,30 +16,6 @@ permissions:
 jobs:
   quality:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
-    steps:
-      - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-      - name: Setup Node
-        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
-        with:
-          node-version: 20
-          cache: npm
-      - name: Install dependencies
-        run: npm ci --ignore-scripts --no-audit
-      - name: Lint
-        run: npm run lint
-      - name: Typecheck
-        run: npm run typecheck
-      - name: Unit and integration tests
-        run: npm run test
-
-  heavy-assurance:
-    needs: quality
-    if: github.event_name == 'push' || contains(github.event.pull_request.labels.*.name, 'run-full-ci')
-    runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
       - name: Checkout
@@ -49,11 +25,63 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
         with:
-          node-version: 20
+          node-version: 22.23.2
           cache: npm
-      - name: Install dependencies
+      - name: Install deterministic dependencies
+        run: npm ci --ignore-scripts --no-audit
+      - name: Validate software supply-chain policy
+        run: npm run validate:supply-chain
+      - name: High/Critical dependency audit
+        run: npm audit --audit-level=high
+      - name: Format check
+        run: npm run format:check
+      - name: Lint
+        run: npm run lint
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Unit and integration tests
+        run: npm run test
+
+  heavy-assurance:
+    needs: quality
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      RAEBURN_IMAGE_TAG: ${{ github.sha }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Setup Node
+        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
+        with:
+          node-version: 22.23.2
+          cache: npm
+      - name: Install deterministic dependencies
         run: npm ci --ignore-scripts --no-audit
       - name: Build
         run: npm run build
-      - name: Docker build
-        run: docker build -t raeburnai-proposal-generator .
+      - name: Build deterministic production image
+        run: docker build -t raeburnai-proposal-generator:${{ github.sha }} .
+      - name: Scan image for High/Critical vulnerabilities
+        uses: aquasecurity/trivy-action@a9c7b0f06e461e9d4b4d1711f154ee024b8d7ab8 # v0.36.0
+        with:
+          image-ref: raeburnai-proposal-generator:${{ github.sha }}
+          format: table
+          exit-code: '1'
+          severity: CRITICAL,HIGH
+      - name: Smoke-test production image
+        shell: bash
+        run: |
+          set -euo pipefail
+          container_id="$(docker run -d -p 127.0.0.1:3000:3000 raeburnai-proposal-generator:${{ github.sha }})"
+          trap 'docker logs "$container_id" || true; docker rm -f "$container_id" >/dev/null 2>&1 || true' EXIT
+          for attempt in $(seq 1 45); do
+            if curl --fail --silent http://127.0.0.1:3000/api/health | grep -q '"status":"ok"'; then
+              exit 0
+            fi
+            sleep 1
+          done
+          echo 'Production image did not become healthy' >&2
+          exit 1
