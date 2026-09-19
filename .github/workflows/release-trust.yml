@@ -28,7 +28,7 @@ jobs:
       RELEASE_TAG: ${{ inputs.release_tag || github.event.release.tag_name }}
     steps:
       - name: Checkout exact release tag
-        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           ref: ${{ env.RELEASE_TAG }}
           fetch-depth: 0
@@ -80,11 +80,15 @@ jobs:
       - name: Stage canonical SBOM assets
         shell: bash
         run: |
+          set -euo pipefail
           cp /tmp/sbom.spdx.json sbom.spdx.json
           cp /tmp/sbom.cdx.json sbom.cdx.json
 
       - name: Create checksum manifest
-        run: sha256sum "${{ steps.package.outputs.artifact }}" sbom.spdx.json sbom.cdx.json > SHA256SUMS
+        shell: bash
+        run: |
+          set -euo pipefail
+          sha256sum "${{ steps.package.outputs.artifact }}" sbom.spdx.json sbom.cdx.json > SHA256SUMS
 
       - name: Install Cosign
         uses: sigstore/cosign-installer@d58896d6a1865668819e1d91763c7751a165e159
@@ -121,10 +125,10 @@ jobs:
         run: |
           set -euo pipefail
           sha256sum -c SHA256SUMS
-          identity='^https://github\.com/Raebu/RaeburnAI-Proposal-Generator/\.github/workflows/(release-trust|rai112-release-exercise)\.yml@refs/(heads|tags)/.+
+          identity='^https://github\.com/Raebu/RaeburnAI-Proposal-Generator/\.github/workflows/(release-trust|rai112-release-exercise)\.yml@refs/(heads|tags)/.+$'
           issuer='https://token.actions.githubusercontent.com'
           for asset in "${{ steps.package.outputs.artifact }}" SHA256SUMS sbom.spdx.json sbom.cdx.json; do
-            cosign verify-blob --bundle "${asset}.sigstore" --certificate-identity-regexp "$identity" --certificate-oidc-issuer "$issuer" "$asset"
+            cosign verify-blob               --bundle "${asset}.sigstore"               --certificate-identity-regexp "$identity"               --certificate-oidc-issuer "$issuer"               "$asset"
           done
           gh attestation verify "${{ steps.package.outputs.artifact }}" --repo "$GITHUB_REPOSITORY"
 
@@ -151,57 +155,4 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          gh release upload "$RELEASE_TAG" \
-            "${{ steps.package.outputs.artifact }}" \
-            SHA256SUMS \
-            sbom.spdx.json \
-            sbom.cdx.json \
-            "${{ steps.package.outputs.artifact }}.sigstore" \
-            SHA256SUMS.sigstore \
-            sbom.spdx.json.sigstore \
-            sbom.cdx.json.sigstore \
-            TRUST-PACKAGE.txt \
-            --clobber \
-            --repo "$GITHUB_REPOSITORY"
-
-          issuer='https://token.actions.githubusercontent.com'
-          for asset in "${{ steps.package.outputs.artifact }}" SHA256SUMS sbom.spdx.json sbom.cdx.json; do
-            cosign verify-blob --bundle "${asset}.sigstore" --certificate-identity-regexp "$identity" --certificate-oidc-issuer "$issuer" "$asset"
-          done
-          gh attestation verify "${{ steps.package.outputs.artifact }}" --repo "$GITHUB_REPOSITORY"
-
-      - name: Create trust package guide
-        shell: bash
-        run: |
-          cat > TRUST-PACKAGE.txt <<EOF
-          RaeburnAI Proposal Generator release trust package
-          Release tag: $RELEASE_TAG
-          Source commit: ${{ steps.source.outputs.commit }}
-
-          Verify checksums:
-            sha256sum -c SHA256SUMS
-
-          Verify GitHub provenance:
-            gh attestation verify ${{ steps.package.outputs.artifact }} --repo $GITHUB_REPOSITORY
-
-          Sigstore bundles are published beside every signed asset.
-          EOF
-
-      - name: Upload canonical trust package once
-        shell: bash
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          set -euo pipefail
-          gh release upload "$RELEASE_TAG" \
-            "${{ steps.package.outputs.artifact }}" \
-            SHA256SUMS \
-            sbom.spdx.json \
-            sbom.cdx.json \
-            "${{ steps.package.outputs.artifact }}.sigstore" \
-            SHA256SUMS.sigstore \
-            sbom.spdx.json.sigstore \
-            sbom.cdx.json.sigstore \
-            TRUST-PACKAGE.txt \
-            --clobber \
-            --repo "$GITHUB_REPOSITORY"
+          gh release upload "$RELEASE_TAG"             "${{ steps.package.outputs.artifact }}"             SHA256SUMS             sbom.spdx.json             sbom.cdx.json             "${{ steps.package.outputs.artifact }}.sigstore"             SHA256SUMS.sigstore             sbom.spdx.json.sigstore             sbom.cdx.json.sigstore             TRUST-PACKAGE.txt             --clobber             --repo "$GITHUB_REPOSITORY"
