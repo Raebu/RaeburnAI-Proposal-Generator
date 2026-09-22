@@ -1,5 +1,21 @@
 {
-  "certificates": [],
+  "certificates": [
+    {
+      "common_name": "",
+      "domain": "caringcrewco.com",
+      "entry_timestamp": "499b1a1b1a2bea2d9c3951dd054f47a04f3e5923e415610f9ea2a341215c5a61",
+      "id": "17328668823",
+      "issuer_name": "C=GB, O=Sectigo Limited, CN=Sectigo Public Server Authentication CA DV E36",
+      "names": [
+        "*.caringcrewco.com",
+        "caringcrewco.com"
+      ],
+      "not_after": "2026-12-18T17:42:40Z",
+      "not_before": "2026-09-21T00:00:00Z",
+      "serial_number": "cb21f96aa7b5dcea7a3be0f67b858ff472cfcad51a736f14308f9f0cf367af12",
+      "source": "certspotter"
+    }
+  ],
   "domains": [
     "theraeburngroup.com",
     "caringcrewco.com"
