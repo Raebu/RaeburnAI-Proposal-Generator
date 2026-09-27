@@ -1987,6 +1987,20 @@
       "not_before": "2026-09-27T13:35:03Z",
       "serial_number": "a75e71883e42fcef58f0181f6199a296796bd5a667fcf8762a26fba911277a3c",
       "source": "certspotter"
+    },
+    {
+      "common_name": "",
+      "domain": "theraeburngroup.com",
+      "entry_timestamp": "011927c4631be1a316bfeb11f2a1e987a0de7f8554df739d906df3374d204ece",
+      "id": "17446830113",
+      "issuer_name": "C=US, O=Let's Encrypt, CN=YR2",
+      "names": [
+        "digitalassets.theraeburngroup.com"
+      ],
+      "not_after": "2026-12-26T16:50:14Z",
+      "not_before": "2026-09-27T16:50:15Z",
+      "serial_number": "1bbcd1c93b88a18f6a07511f18e2ed62b87da27f2d70df505e06823e5b5cb08f",
+      "source": "certspotter"
     }
   ],
   "domains": [
