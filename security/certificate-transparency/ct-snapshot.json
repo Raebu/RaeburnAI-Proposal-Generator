@@ -1298,6 +1298,20 @@
       "not_before": "2026-10-06T14:13:31Z",
       "serial_number": "d8d1dc3faef477057e9a5a118f1dfb130f3f4c421c793ddbc0b996b0227038fc",
       "source": "certspotter"
+    },
+    {
+      "common_name": "",
+      "domain": "theraeburngroup.com",
+      "entry_timestamp": "5cdd5077c85beae787c2bee425131fed2ed7c0fab712f0ac101509e92e368e12",
+      "id": "17625948744",
+      "issuer_name": "C=US, O=Let's Encrypt, CN=YE2",
+      "names": [
+        "api-staging-talent.theraeburngroup.com"
+      ],
+      "not_after": "2027-01-04T18:44:49Z",
+      "not_before": "2026-10-06T18:44:50Z",
+      "serial_number": "d787964e391f264eaceae18e9bfd13136dee621064115540bc40e2ed5b798097",
+      "source": "certspotter"
     }
   ],
   "domains": [

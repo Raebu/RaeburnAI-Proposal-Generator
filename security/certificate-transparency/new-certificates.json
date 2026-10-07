@@ -3,29 +3,15 @@
     {
       "common_name": "",
       "domain": "theraeburngroup.com",
-      "entry_timestamp": "d1ed690d10e71ef9963aae223d0348c11e524756e1cd70b52b3f441349ce5507",
-      "id": "17621316807",
-      "issuer_name": "C=US, O=Let's Encrypt, CN=YE1",
+      "entry_timestamp": "5cdd5077c85beae787c2bee425131fed2ed7c0fab712f0ac101509e92e368e12",
+      "id": "17625948744",
+      "issuer_name": "C=US, O=Let's Encrypt, CN=YE2",
       "names": [
-        "api.staging.talent.theraeburngroup.com"
+        "api-staging-talent.theraeburngroup.com"
       ],
-      "not_after": "2027-01-04T13:36:35Z",
-      "not_before": "2026-10-06T13:36:36Z",
-      "serial_number": "0a76ec13669b3c176ae0211f694d1973f954236fa654ed85471aecff6cca06a5",
-      "source": "certspotter"
-    },
-    {
-      "common_name": "",
-      "domain": "theraeburngroup.com",
-      "entry_timestamp": "901d590b3b08da2d0896f3636af9d14dbf1f70397d86c3b8676e56170be35640",
-      "id": "17621903515",
-      "issuer_name": "C=US, O=Let's Encrypt, CN=YE1",
-      "names": [
-        "connect.theraeburngroup.com"
-      ],
-      "not_after": "2027-01-04T14:13:30Z",
-      "not_before": "2026-10-06T14:13:31Z",
-      "serial_number": "d8d1dc3faef477057e9a5a118f1dfb130f3f4c421c793ddbc0b996b0227038fc",
+      "not_after": "2027-01-04T18:44:49Z",
+      "not_before": "2026-10-06T18:44:50Z",
+      "serial_number": "d787964e391f264eaceae18e9bfd13136dee621064115540bc40e2ed5b798097",
       "source": "certspotter"
     }
   ],
