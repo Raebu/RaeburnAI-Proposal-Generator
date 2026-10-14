@@ -149,21 +149,6 @@
     {
       "common_name": "",
       "domain": "theraeburngroup.com",
-      "entry_timestamp": "733bd3eb5336dfe203fabe30977df9336a789b534b77384afe6e7f98f05b966a",
-      "id": "15908785290",
-      "issuer_name": "C=US, O=Let's Encrypt, CN=YE2",
-      "names": [
-        "*.theraeburngroup.com",
-        "theraeburngroup.com"
-      ],
-      "not_after": "2026-10-14T21:12:45Z",
-      "not_before": "2026-07-16T21:12:46Z",
-      "serial_number": "b8b1f63ffe00abc4fc6bf12b7b67b1a3927e4ce8d0642bf164ee73d8c47bc722",
-      "source": "certspotter"
-    },
-    {
-      "common_name": "",
-      "domain": "theraeburngroup.com",
       "entry_timestamp": "a6d19dee66c71367668e78de06af35c1df4aad02b879bb2f703c44ce1f49573e",
       "id": "15992855765",
       "issuer_name": "C=US, O=Let's Encrypt, CN=YR2",
@@ -1389,6 +1374,38 @@
       "not_after": "2027-01-10T08:47:00Z",
       "not_before": "2026-10-12T08:47:01Z",
       "serial_number": "c2dafb48e9470bcc8ca8d4678b4c8557adb4f74cae1d5ef256c13fb8bfd4821d",
+      "source": "certspotter"
+    },
+    {
+      "common_name": "",
+      "domain": "theraeburngroup.com",
+      "entry_timestamp": "aecbc18230fc3683245e676bad5c0ca603426297569d5bc8d5331a7f9e02771f",
+      "id": "17785753628",
+      "issuer_name": "C=US, O=Google Trust Services, CN=WR1",
+      "names": [
+        "*.directors.theraeburngroup.com",
+        "directors.theraeburngroup.com",
+        "theraeburngroup.com"
+      ],
+      "not_after": "2027-01-12T18:55:50Z",
+      "not_before": "2026-10-14T17:57:59Z",
+      "serial_number": "c44bc817997aed39f9de8f082359be76d8f3732f3edc8b22f1a7a8236ac3c8a7",
+      "source": "certspotter"
+    },
+    {
+      "common_name": "",
+      "domain": "theraeburngroup.com",
+      "entry_timestamp": "3776a744dc41eec2cabb92eb1e6554bb314e861a1e37b13ad3b2c4adf54e5afd",
+      "id": "17785753767",
+      "issuer_name": "C=US, O=Google Trust Services, CN=WE1",
+      "names": [
+        "*.directors.theraeburngroup.com",
+        "directors.theraeburngroup.com",
+        "theraeburngroup.com"
+      ],
+      "not_after": "2027-01-12T18:58:07Z",
+      "not_before": "2026-10-14T17:58:10Z",
+      "serial_number": "7a38e34fed1d829bfada58c7bdff9cb80a962840691a24e16879d57babda922b",
       "source": "certspotter"
     }
   ],
