@@ -1407,6 +1407,52 @@
       "not_before": "2026-10-14T17:58:10Z",
       "serial_number": "7a38e34fed1d829bfada58c7bdff9cb80a962840691a24e16879d57babda922b",
       "source": "certspotter"
+    },
+    {
+      "common_name": "",
+      "domain": "theraeburngroup.com",
+      "entry_timestamp": "ec8a6918ccc4628525d0a4ba1eaaba981c908c77085367f236f2b355668d7d20",
+      "id": "17835484785",
+      "issuer_name": "C=US, O=Let's Encrypt, CN=YR1",
+      "names": [
+        "automationlabs.theraeburngroup.com"
+      ],
+      "not_after": "2027-01-15T11:28:33Z",
+      "not_before": "2026-10-17T11:28:34Z",
+      "serial_number": "d40dec54e86ef04512669252f3c1d366ba360794e49ea3f4c76c2630b38646a7",
+      "source": "certspotter"
+    },
+    {
+      "common_name": "",
+      "domain": "theraeburngroup.com",
+      "entry_timestamp": "65ab3fcfd2ab2154542ebd8efbeb60eb7b2cc503a10f2cf4459485917650c19d",
+      "id": "17836938216",
+      "issuer_name": "C=US, O=Google Trust Services, CN=WE1",
+      "names": [
+        "*.directors-staging.theraeburngroup.com",
+        "directors-staging.theraeburngroup.com",
+        "theraeburngroup.com"
+      ],
+      "not_after": "2027-01-15T14:41:10Z",
+      "not_before": "2026-10-17T13:41:14Z",
+      "serial_number": "3b491a1bd5ecf191d3bb44243a3c49e5b63f472dea2149fa408d60f3f53b112b",
+      "source": "certspotter"
+    },
+    {
+      "common_name": "",
+      "domain": "theraeburngroup.com",
+      "entry_timestamp": "a3cd73d5661ffb95262ec90e910f31cdb376eec25ecdb789ca6f65e4ec1a9b2b",
+      "id": "17836943424",
+      "issuer_name": "C=US, O=Google Trust Services, CN=WR1",
+      "names": [
+        "*.directors-staging.theraeburngroup.com",
+        "directors-staging.theraeburngroup.com",
+        "theraeburngroup.com"
+      ],
+      "not_after": "2027-01-15T14:38:55Z",
+      "not_before": "2026-10-17T13:41:04Z",
+      "serial_number": "c4a3bb288f23aead0d6d1acbb63b7658d3523c62cf9c01e0fc942dd6cae9e884",
+      "source": "certspotter"
     }
   ],
   "domains": [
