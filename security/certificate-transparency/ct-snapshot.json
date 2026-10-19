@@ -1453,6 +1453,21 @@
       "not_before": "2026-10-17T13:41:04Z",
       "serial_number": "c4a3bb288f23aead0d6d1acbb63b7658d3523c62cf9c01e0fc942dd6cae9e884",
       "source": "certspotter"
+    },
+    {
+      "common_name": "",
+      "domain": "theraeburngroup.com",
+      "entry_timestamp": "3b1f49c04d4fc0850a622dbafecef49539ef5d307174de2c6addcab60146b3e4",
+      "id": "17875798051",
+      "issuer_name": "C=US, O=Google Trust Services, CN=WE1",
+      "names": [
+        "*.theraeburngroup.com",
+        "theraeburngroup.com"
+      ],
+      "not_after": "2027-01-17T22:13:09Z",
+      "not_before": "2026-10-19T21:15:25Z",
+      "serial_number": "5344d84d57de0d48250aeaf2fd8703dc3f6a3670065eee8a11485cee78d38270",
+      "source": "certspotter"
     }
   ],
   "domains": [
