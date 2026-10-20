@@ -149,20 +149,6 @@
     {
       "common_name": "",
       "domain": "theraeburngroup.com",
-      "entry_timestamp": "4b8a2ee19ba80ab28cd30ec0d8b66c8cb8ddf16d8a2c2f7f4b1e1396b7313173",
-      "id": "14392257624",
-      "issuer_name": "C=US, O=GoDaddy.com, CN=GoDaddy TLS Intermediate CA DV - R1v1",
-      "names": [
-        "www.theraeburngroup.com"
-      ],
-      "not_after": "2026-10-20T21:25:35Z",
-      "not_before": "2026-04-05T21:25:35Z",
-      "serial_number": "efe5ebf581534799cbec7640ab32c12274c673d93bf724f4eee76ca436af096b",
-      "source": "certspotter"
-    },
-    {
-      "common_name": "",
-      "domain": "theraeburngroup.com",
       "entry_timestamp": "098f9491841356d6a3531e7131eee9fc2d76bafbc4166730aba7cf1c265a498d",
       "id": "16079476747",
       "issuer_name": "C=US, O=Let's Encrypt, CN=YE2",
@@ -1467,6 +1453,102 @@
       "not_after": "2027-01-17T22:13:09Z",
       "not_before": "2026-10-19T21:15:25Z",
       "serial_number": "5344d84d57de0d48250aeaf2fd8703dc3f6a3670065eee8a11485cee78d38270",
+      "source": "certspotter"
+    },
+    {
+      "common_name": "",
+      "domain": "theraeburngroup.com",
+      "entry_timestamp": "9230185f5c073e7a898a87291267b3bff758b82fcaa0b604535dfa1ead2670a0",
+      "id": "17892215498",
+      "issuer_name": "C=US, O=Google Trust Services, CN=WR1",
+      "names": [
+        "*.proposal.theraeburngroup.com",
+        "proposal.theraeburngroup.com",
+        "theraeburngroup.com"
+      ],
+      "not_after": "2027-01-18T19:25:02Z",
+      "not_before": "2026-10-20T18:27:15Z",
+      "serial_number": "370b19fe01eacc94f377e0112c8435515485af3d686a51cd8e77939c235cc11a",
+      "source": "certspotter"
+    },
+    {
+      "common_name": "",
+      "domain": "theraeburngroup.com",
+      "entry_timestamp": "8978f5dda78049993d16b5a0c34cddcdac6a4cdd703be89a9dea0a88d344ab50",
+      "id": "17892216482",
+      "issuer_name": "C=US, O=Google Trust Services, CN=WE1",
+      "names": [
+        "*.proposal.theraeburngroup.com",
+        "proposal.theraeburngroup.com",
+        "theraeburngroup.com"
+      ],
+      "not_after": "2027-01-18T19:27:23Z",
+      "not_before": "2026-10-20T18:27:27Z",
+      "serial_number": "123ceb03946de96f0a25b1b1babebbd23a6cda8642d0152045c19d5db12376a9",
+      "source": "certspotter"
+    },
+    {
+      "common_name": "",
+      "domain": "theraeburngroup.com",
+      "entry_timestamp": "8051a7f56975b60aa8d3395caa09543e471dda08f5b1544c0ed69a9e321b5023",
+      "id": "17892382492",
+      "issuer_name": "C=US, O=Google Trust Services, CN=WE1",
+      "names": [
+        "*.proposal.theraeburngroup.com",
+        "proposal.theraeburngroup.com",
+        "theraeburngroup.com"
+      ],
+      "not_after": "2027-01-18T19:42:09Z",
+      "not_before": "2026-10-20T18:42:11Z",
+      "serial_number": "1b24c947e223784fd30e2bbfcf0fec09e939c7f576f0629a7dd62efb2bffa1a4",
+      "source": "certspotter"
+    },
+    {
+      "common_name": "",
+      "domain": "theraeburngroup.com",
+      "entry_timestamp": "77982c483eb7c8d4b4a12d51eba8e4deed5183bdf143537676c340d2f3479afd",
+      "id": "17892382827",
+      "issuer_name": "C=US, O=Google Trust Services, CN=WR1",
+      "names": [
+        "*.proposal.theraeburngroup.com",
+        "proposal.theraeburngroup.com",
+        "theraeburngroup.com"
+      ],
+      "not_after": "2027-01-18T19:41:59Z",
+      "not_before": "2026-10-20T18:42:02Z",
+      "serial_number": "c93034ec667bb9315541fa7c58da43c11bd06022946c9cec8b6c3f7e22d9ae09",
+      "source": "certspotter"
+    },
+    {
+      "common_name": "",
+      "domain": "theraeburngroup.com",
+      "entry_timestamp": "36cfab12545df7d89bd5bed6d03437ee4d4c2370f7f604c27710d5858ebe3324",
+      "id": "17892635186",
+      "issuer_name": "C=US, O=Google Trust Services, CN=WR1",
+      "names": [
+        "*.bulk.proposal.theraeburngroup.com",
+        "bulk.proposal.theraeburngroup.com",
+        "theraeburngroup.com"
+      ],
+      "not_after": "2027-01-18T20:01:12Z",
+      "not_before": "2026-10-20T19:03:23Z",
+      "serial_number": "3451ba61245536d885f8fec2ab99e18e32154aa9db4d2930e58c84e9e2995b2f",
+      "source": "certspotter"
+    },
+    {
+      "common_name": "",
+      "domain": "theraeburngroup.com",
+      "entry_timestamp": "0a1d6258e5bd88e593bc24aa0f06242bce9e63469455bc538b47cd1c70409a71",
+      "id": "17892637006",
+      "issuer_name": "C=US, O=Google Trust Services, CN=WE1",
+      "names": [
+        "*.bulk.proposal.theraeburngroup.com",
+        "bulk.proposal.theraeburngroup.com",
+        "theraeburngroup.com"
+      ],
+      "not_after": "2027-01-18T20:03:29Z",
+      "not_before": "2026-10-20T19:03:32Z",
+      "serial_number": "23aae8584a9b5a1c1656b5a798b9addb58f0643b1e4449ba2e0106d3d302ac56",
       "source": "certspotter"
     }
   ],
