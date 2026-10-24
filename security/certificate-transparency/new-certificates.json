@@ -1,5 +1,70 @@
 {
-  "certificates": [],
+  "certificates": [
+    {
+      "common_name": "",
+      "domain": "theraeburngroup.com",
+      "entry_timestamp": "d7f9d728f0ca50d60d09b37876985c4ffdf2c39da1d7f6167af07d595fc89d76",
+      "id": "17964297271",
+      "issuer_name": "C=US, O=Google Trust Services, CN=WR1",
+      "names": [
+        "*.mta-sts.theraeburngroup.com",
+        "mta-sts.theraeburngroup.com",
+        "theraeburngroup.com"
+      ],
+      "not_after": "2027-01-22T18:39:06Z",
+      "not_before": "2026-10-24T17:41:15Z",
+      "serial_number": "9953676d5da514cb1163e7bdaf20b2dec7d31b26de9a2f711c0cbddba50e31d8",
+      "source": "certspotter"
+    },
+    {
+      "common_name": "",
+      "domain": "theraeburngroup.com",
+      "entry_timestamp": "ebb26911383606c29e48b0f455a7cf1194e941785675e3991169e8d3f2c1526a",
+      "id": "17964299039",
+      "issuer_name": "C=US, O=Google Trust Services, CN=WE1",
+      "names": [
+        "*.mta-sts.theraeburngroup.com",
+        "mta-sts.theraeburngroup.com",
+        "theraeburngroup.com"
+      ],
+      "not_after": "2027-01-22T18:41:22Z",
+      "not_before": "2026-10-24T17:41:25Z",
+      "serial_number": "cea7f9d15e18b4f3467b1ca6bf6c83597c6bf9c390a9b329a855284fe477bb63",
+      "source": "certspotter"
+    },
+    {
+      "common_name": "",
+      "domain": "theraeburngroup.com",
+      "entry_timestamp": "55d7b637df94e3097c770791890e9ed16038bdc4def09f513c4df26eaeb3a899",
+      "id": "17964417732",
+      "issuer_name": "C=US, O=Google Trust Services, CN=WR1",
+      "names": [
+        "*.mta-sts.theraeburngroup.com",
+        "mta-sts.theraeburngroup.com",
+        "theraeburngroup.com"
+      ],
+      "not_after": "2027-01-22T18:52:25Z",
+      "not_before": "2026-10-24T17:52:39Z",
+      "serial_number": "2b79bf1ce87a0b02a491b668c25da6adbefeb416c9a7f47d04c1b0b133b736e4",
+      "source": "certspotter"
+    },
+    {
+      "common_name": "",
+      "domain": "theraeburngroup.com",
+      "entry_timestamp": "2559d2574ec9bef55f3a80f8215a35b5c497d9b3e300be1ab47559d46adcc0ad",
+      "id": "17964420871",
+      "issuer_name": "C=US, O=Google Trust Services, CN=WE1",
+      "names": [
+        "*.mta-sts.theraeburngroup.com",
+        "mta-sts.theraeburngroup.com",
+        "theraeburngroup.com"
+      ],
+      "not_after": "2027-01-22T18:52:46Z",
+      "not_before": "2026-10-24T17:52:51Z",
+      "serial_number": "409e26c9f0e0448b6f3298fa80031cbdae959474f1b62dadabfcd8b39e6d766c",
+      "source": "certspotter"
+    }
+  ],
   "domains": [
     "theraeburngroup.com",
     "caringcrewco.com"
