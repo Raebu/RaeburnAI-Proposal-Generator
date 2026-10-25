@@ -149,20 +149,6 @@
     {
       "common_name": "",
       "domain": "theraeburngroup.com",
-      "entry_timestamp": "3fe12e9030d05b085ecc5e05d31b0c692a2857f26620529f55a5a5e73ee55c55",
-      "id": "16109551379",
-      "issuer_name": "C=US, O=Let's Encrypt, CN=YR1",
-      "names": [
-        "digitalassets.theraeburngroup.com"
-      ],
-      "not_after": "2026-10-25T06:06:54Z",
-      "not_before": "2026-07-27T06:06:55Z",
-      "serial_number": "b9b603d40b957461b1333b864d66deff4865035b2b65c14e1a39e8602dadb825",
-      "source": "certspotter"
-    },
-    {
-      "common_name": "",
-      "domain": "theraeburngroup.com",
       "entry_timestamp": "37b92eccd84edae06e6a77db9f15586f88ee53c5866467ef8972b7522fe1f095",
       "id": "16116463827",
       "issuer_name": "C=US, O=Let's Encrypt, CN=YR2",
