@@ -3,36 +3,6 @@
     {
       "common_name": "",
       "domain": "caringcrewco.com",
-      "entry_timestamp": "490dff6299eabe02074206c497089d0714be1635981e62f1e962b1ca87397e7d",
-      "id": "16123174164",
-      "issuer_name": "C=US, O=Google Trust Services, CN=WE1",
-      "names": [
-        "*.caringcrewco.com",
-        "caringcrewco.com"
-      ],
-      "not_after": "2026-10-25T23:09:35Z",
-      "not_before": "2026-07-27T22:11:57Z",
-      "serial_number": "4418b272ca5c3af05fec3bde4a9d146e4352f97ad7e9bbede9d8eab0c7817f46",
-      "source": "certspotter"
-    },
-    {
-      "common_name": "",
-      "domain": "caringcrewco.com",
-      "entry_timestamp": "b8952177b09623561043e51618628ad3e3c62c5589ec5a079b11faf52f6768fe",
-      "id": "16125052346",
-      "issuer_name": "C=US, O=Google Trust Services, CN=WE1",
-      "names": [
-        "*.caringcrewco.com",
-        "caringcrewco.com"
-      ],
-      "not_after": "2026-10-26T01:24:53Z",
-      "not_before": "2026-07-28T00:24:58Z",
-      "serial_number": "4e82a1174721d78986284db756c9d6a13e8d58b06c02bd512d58530517b40938",
-      "source": "certspotter"
-    },
-    {
-      "common_name": "",
-      "domain": "caringcrewco.com",
       "entry_timestamp": "d7fe066b3c3a5170833f16710e825787cefd42504a7632d178dac9069ca25136",
       "id": "16569875798",
       "issuer_name": "C=US, O=Let's Encrypt, CN=YR2",
