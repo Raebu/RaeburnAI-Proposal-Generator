@@ -1698,6 +1698,34 @@
       "not_before": "2026-10-31T15:38:06Z",
       "serial_number": "540a13bde6318b8eb1d85bf691c1fa4ab68ea4cada86d49dbb8ec7f5b19a1fe4",
       "source": "certspotter"
+    },
+    {
+      "common_name": "",
+      "domain": "theraeburngroup.com",
+      "entry_timestamp": "3a408c8a8d9ebef7b8ee202eaf0ef856c271f31cb218012402115bfac345ac83",
+      "id": "18134332736",
+      "issuer_name": "C=US, O=Let's Encrypt, CN=YR2",
+      "names": [
+        "electricians.theraeburngroup.com"
+      ],
+      "not_after": "2027-01-31T19:25:38Z",
+      "not_before": "2026-11-02T19:25:39Z",
+      "serial_number": "ee1452eb2108fb8961e6d58012861e06a3846f18450cbe3fd3c9f9857add5799",
+      "source": "certspotter"
+    },
+    {
+      "common_name": "",
+      "domain": "theraeburngroup.com",
+      "entry_timestamp": "097809da342335b0266718ccd918005d1a97ce587565058e74d0b18f763aae8e",
+      "id": "18134368093",
+      "issuer_name": "C=US, O=Let's Encrypt, CN=YR2",
+      "names": [
+        "ifa.theraeburngroup.com"
+      ],
+      "not_after": "2027-01-31T19:27:27Z",
+      "not_before": "2026-11-02T19:27:28Z",
+      "serial_number": "5bf4c4a7005cab1a06cc05c1b673a03e75ebabf19463a4e30dee28be1b1fb5a2",
+      "source": "certspotter"
     }
   ],
   "domains": [
