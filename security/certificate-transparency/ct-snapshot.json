@@ -2392,6 +2392,20 @@
       "not_before": "2026-11-05T20:10:54Z",
       "serial_number": "059264bed9a32b62d09fe276334fa99d05e9b5a436a8b13c3f1ba31190bdb8ae",
       "source": "certspotter"
+    },
+    {
+      "common_name": "",
+      "domain": "theraeburngroup.com",
+      "entry_timestamp": "b63c3d117cf2b2c62582f10737f555093c958ce5b1622a97f4a034a3a15288a9",
+      "id": "18237879511",
+      "issuer_name": "C=US, O=Let's Encrypt, CN=YR1",
+      "names": [
+        "recruitment.theraeburngroup.com"
+      ],
+      "not_after": "2027-02-06T00:54:55Z",
+      "not_before": "2026-11-08T00:54:56Z",
+      "serial_number": "206c40a7ea311ea11f244ff79a29346882167a02d1a5c4c22a76e2b5d8862b32",
+      "source": "certspotter"
     }
   ],
   "domains": [
