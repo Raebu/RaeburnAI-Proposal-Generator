@@ -1,5 +1,90 @@
 {
-  "certificates": [],
+  "certificates": [
+    {
+      "common_name": "",
+      "domain": "theraeburngroup.com",
+      "entry_timestamp": "84c6433676dfcaa5d491a71889dba30152f94a1bfa35f4f59ee94b14a8f00272",
+      "id": "18289687611",
+      "issuer_name": "C=US, O=Google Trust Services, CN=WR1",
+      "names": [
+        "theraeburngroup.com"
+      ],
+      "not_after": "2027-02-08T11:45:34Z",
+      "not_before": "2026-11-10T10:46:16Z",
+      "serial_number": "912a4219f918b5e87359bc9e7a69f096fb28f9c645c6cb39241bdd136bf9e362",
+      "source": "certspotter"
+    },
+    {
+      "common_name": "",
+      "domain": "theraeburngroup.com",
+      "entry_timestamp": "6eb6ed37004a76a49fe9c930e21bbe29b4de9421dd49b9740e0d1d91af47a5ef",
+      "id": "18289688744",
+      "issuer_name": "C=US, O=Google Trust Services, CN=WE1",
+      "names": [
+        "theraeburngroup.com"
+      ],
+      "not_after": "2027-02-08T11:46:23Z",
+      "not_before": "2026-11-10T10:46:24Z",
+      "serial_number": "f24a46401d0c82bf2eb4e97add111e417180bfb6c2c21a457c3b92a97fbcab4a",
+      "source": "certspotter"
+    },
+    {
+      "common_name": "",
+      "domain": "theraeburngroup.com",
+      "entry_timestamp": "810d45843781318b9f893ebb709806f98acb6e012bb97e0bf1d4a9264b5426e8",
+      "id": "18289697531",
+      "issuer_name": "C=US, O=Google Trust Services, CN=WR1",
+      "names": [
+        "www.theraeburngroup.com"
+      ],
+      "not_after": "2027-02-08T11:47:18Z",
+      "not_before": "2026-11-10T10:48:25Z",
+      "serial_number": "a742848496f15786fd551c4ed331deadf4492015c28cd9666fb36f68f3ce0aad",
+      "source": "certspotter"
+    },
+    {
+      "common_name": "",
+      "domain": "theraeburngroup.com",
+      "entry_timestamp": "c7200c1467fb1e6505776245733ed34436c3358b9cc0dd52deab892beabb8316",
+      "id": "18289711897",
+      "issuer_name": "C=US, O=Google Trust Services, CN=WE1",
+      "names": [
+        "www.theraeburngroup.com"
+      ],
+      "not_after": "2027-02-08T11:48:31Z",
+      "not_before": "2026-11-10T10:48:34Z",
+      "serial_number": "3bd2744b4a678beae126cdbfb8bf9210b145ff5270dedfeff1da49437b9d5c53",
+      "source": "certspotter"
+    },
+    {
+      "common_name": "",
+      "domain": "theraeburngroup.com",
+      "entry_timestamp": "48dc9c3fe2d86bd9e2c3aa082d0a3e8e396a2365ddb66d635d26c1fd5487ed6d",
+      "id": "18292146229",
+      "issuer_name": "C=US, O=Google Trust Services, CN=WR1",
+      "names": [
+        "students.theraeburngroup.com"
+      ],
+      "not_after": "2027-02-08T14:01:07Z",
+      "not_before": "2026-11-10T13:39:00Z",
+      "serial_number": "9b7f98912a3ec9f4d76fc7279affe86668b78adffc3e6e98f81d00056b779639",
+      "source": "certspotter"
+    },
+    {
+      "common_name": "",
+      "domain": "theraeburngroup.com",
+      "entry_timestamp": "8fc652c95e96105a752584313b6b115244bec17a656ec6fe68df4597efd0f46c",
+      "id": "18292147868",
+      "issuer_name": "C=US, O=Google Trust Services, CN=WE1",
+      "names": [
+        "students.theraeburngroup.com"
+      ],
+      "not_after": "2027-02-08T14:39:06Z",
+      "not_before": "2026-11-10T13:39:08Z",
+      "serial_number": "188523eebd1959559ca1995b195bcf3cef9a301e84f715879b21c543e8434f5a",
+      "source": "certspotter"
+    }
+  ],
   "domains": [
     "theraeburngroup.com",
     "caringcrewco.com"
