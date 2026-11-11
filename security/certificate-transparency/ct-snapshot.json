@@ -2476,6 +2476,20 @@
       "not_before": "2026-11-10T13:39:08Z",
       "serial_number": "188523eebd1959559ca1995b195bcf3cef9a301e84f715879b21c543e8434f5a",
       "source": "certspotter"
+    },
+    {
+      "common_name": "",
+      "domain": "theraeburngroup.com",
+      "entry_timestamp": "f7a7d20a91bf97c44eca1b8644ea0ffd75a8935787920a8876bc815b47d84c75",
+      "id": "18311396106",
+      "issuer_name": "C=US, O=Let's Encrypt, CN=YE1",
+      "names": [
+        "electrician.theraeburngroup.com"
+      ],
+      "not_after": "2027-02-09T12:06:01Z",
+      "not_before": "2026-11-11T12:06:02Z",
+      "serial_number": "eaaee8b0229c2466ef2499063cfe738dfe8167ec39af0aae4e3c750b25cc511a",
+      "source": "certspotter"
     }
   ],
   "domains": [
