@@ -205,20 +205,6 @@
     {
       "common_name": "",
       "domain": "theraeburngroup.com",
-      "entry_timestamp": "58ad1c0432d724abc3f4fc16afa20d174fa27b2ffe36780dc31448848cc33404",
-      "id": "16553849194",
-      "issuer_name": "C=US, O=Let's Encrypt, CN=YR1",
-      "names": [
-        "automationlabs.theraeburngroup.com"
-      ],
-      "not_after": "2026-11-14T23:56:36Z",
-      "not_before": "2026-08-16T23:56:37Z",
-      "serial_number": "f5498b766672c78fbe81842868fea912fbd51b7b3ff1705aee37eba34f1e8b35",
-      "source": "certspotter"
-    },
-    {
-      "common_name": "",
-      "domain": "theraeburngroup.com",
       "entry_timestamp": "f68731820e25d9752bb229582f73c6c0930fa14a4f11ed97f07c21f83abe9c9f",
       "id": "16668500807",
       "issuer_name": "C=US, O=Google Trust Services, CN=WE1",
@@ -2692,6 +2678,34 @@
       "not_after": "2027-02-12T12:06:38Z",
       "not_before": "2026-11-14T12:06:39Z",
       "serial_number": "0a2b2493aa0560081922ca282997b66ac61a318ef281f2f2f353da1beea476c5",
+      "source": "certspotter"
+    },
+    {
+      "common_name": "",
+      "domain": "theraeburngroup.com",
+      "entry_timestamp": "ffdae4a4add17a5a7cc69e1fee2cc109b20da51faf62ba35e3ee3f8c0302c1c4",
+      "id": "18385964654",
+      "issuer_name": "C=US, O=Google Trust Services, CN=WR1",
+      "names": [
+        "tlevels.theraeburngroup.com"
+      ],
+      "not_after": "2027-02-12T09:11:38Z",
+      "not_before": "2026-11-15T00:53:34Z",
+      "serial_number": "3794237e818b9ebbc04e7aa7d11a3a2644f9be0add492b289691b315c8899a2b",
+      "source": "certspotter"
+    },
+    {
+      "common_name": "",
+      "domain": "theraeburngroup.com",
+      "entry_timestamp": "ad2fe65f73042266f1ea1dec2f58fd6387749b2b486ddd991361d5446533da7d",
+      "id": "18385966117",
+      "issuer_name": "C=US, O=Google Trust Services, CN=WE1",
+      "names": [
+        "tlevels.theraeburngroup.com"
+      ],
+      "not_after": "2027-02-13T01:53:40Z",
+      "not_before": "2026-11-15T00:53:42Z",
+      "serial_number": "1722a0134af8430d030607a2584fe4cfd082c562ebe2f6141f8edd44d24ca489",
       "source": "certspotter"
     }
   ],
