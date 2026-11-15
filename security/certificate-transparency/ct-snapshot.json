@@ -3,20 +3,6 @@
     {
       "common_name": "",
       "domain": "caringcrewco.com",
-      "entry_timestamp": "d7fe066b3c3a5170833f16710e825787cefd42504a7632d178dac9069ca25136",
-      "id": "16569875798",
-      "issuer_name": "C=US, O=Let's Encrypt, CN=YR2",
-      "names": [
-        "www.caringcrewco.com"
-      ],
-      "not_after": "2026-11-15T17:51:21Z",
-      "not_before": "2026-08-17T17:51:22Z",
-      "serial_number": "35110c9a17fe169b645f07c41cb6d2e1696cd2fa7dd1c44bb8d1c7d285ab10ba",
-      "source": "certspotter"
-    },
-    {
-      "common_name": "",
-      "domain": "caringcrewco.com",
       "entry_timestamp": "ef197316e2de7038f4bb97ca8ba3651d467bf3f5d14e8d037bf7eb2f27ff84a4",
       "id": "16588000681",
       "issuer_name": "C=US, O=Let's Encrypt, CN=YR1",
